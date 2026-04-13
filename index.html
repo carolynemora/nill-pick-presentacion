@@ -139,6 +139,22 @@ html,body{height:100%;font-family:'Segoe UI',Calibri,sans-serif;background:#0a0a
 .kpi-ba-val.before{color:#cbd5e1}
 .kpi-ba-arrow{font-size:1rem;color:#9ca3af}
 .kpi-ba-diff{font-size:.72rem;font-weight:700;margin-top:3px}
+/* Tab 5 - Gantt */
+.gantt-wrap{display:flex;flex-direction:column;gap:14px}
+.gantt-row{display:grid;grid-template-columns:200px 1fr;gap:16px;align-items:center}
+.gantt-label{display:flex;align-items:flex-start;gap:10px;font-size:.78rem;
+  color:#374151;line-height:1.4;min-height:40px}
+.gtask-num{width:26px;height:26px;border-radius:50%;color:#fff;font-size:.74rem;
+  font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.gantt-bars{position:relative;height:38px}
+.gantt-grid{position:absolute;inset:0;display:grid;
+  grid-template-columns:repeat(12,1fr);gap:3px}
+.gantt-grid::before{content:"";display:contents}
+.gantt-grid{background:repeating-linear-gradient(90deg,
+  #f1f5f9 0px, #f1f5f9 calc(8.333% - 3px), #e2e8f0 calc(8.333% - 3px), #e2e8f0 8.333%)}
+.gantt-bar{position:absolute;top:4px;bottom:4px;
+  border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.18);}
+.gantt-axis{display:grid;grid-template-columns:200px 1fr;gap:16px;margin-top:-6px}
 </style>
 </head>
 <body>
@@ -158,6 +174,7 @@ html,body{height:100%;font-family:'Segoe UI',Calibri,sans-serif;background:#0a0a
     <button class="tbtn"     onclick="sw(1)">🔄 Órdenes · Refacturaciones (12)</button>
     <button class="tbtn"     onclick="sw(2)">🎯 Next Steps</button>
     <button class="tbtn"     onclick="sw(3)">📡 Impacto — Datos Janis</button>
+    <button class="tbtn"     onclick="sw(4)">📅 Cronograma</button>
   </div>
   <div class="panels">
     <div class="tp on" id="tp0"><div class="deck">
@@ -1062,6 +1079,149 @@ html,body{height:100%;font-family:'Segoe UI',Calibri,sans-serif;background:#0a0a
   </div>
 </section>
 </div></div>
+    <div class="tp"    id="tp4"><div class="deck">
+<section class="slide on" id="t5_cron">
+  <div class="sacc" style="background:#0053e2"></div>
+  <div style="height:100%;overflow-y:auto;background:#eef0f5;
+    padding:28px 32px 80px calc(32px + 6px)">
+
+    <!-- HEADER CARD -->
+    <div style="background:linear-gradient(135deg,#0053e2 0%,#1a4fd4 100%);
+      border-radius:14px;padding:22px 28px;display:flex;
+      align-items:center;justify-content:space-between;
+      margin-bottom:24px;box-shadow:0 4px 16px rgba(0,83,226,.25)">
+      <div>
+        <p style="font-size:.72rem;font-weight:700;letter-spacing:.12em;
+          text-transform:uppercase;color:#ffc220;margin-bottom:6px">Plan de Ejecuci&oacute;n</p>
+        <h2 style="font-size:clamp(1.3rem,2.5vw,1.9rem);font-weight:800;
+          color:#fff;letter-spacing:-.01em">Conciliaci&oacute;n OMS + Devoluciones</h2>
+      </div>
+      <div style="text-align:right;flex-shrink:0">
+        <p style="font-size:.72rem;font-weight:700;letter-spacing:.12em;
+          text-transform:uppercase;color:rgba(255,255,255,.7);margin-bottom:4px">
+          Fecha de Entrega</p>
+        <p style="font-size:clamp(1.5rem,2.8vw,2.1rem);font-weight:900;
+          color:#ffc220;letter-spacing:-.01em">23 Abr 2026</p>
+      </div>
+    </div>
+
+    <!-- GANTT CARD -->
+    <div style="background:#fff;border-radius:14px;
+      box-shadow:0 2px 12px rgba(0,0,0,.07);padding:28px 28px 20px">
+
+      <!-- grid labels + gantt rows -->
+      <div class="gantt-wrap">
+
+        <!-- task rows -->
+        <div class="gantt-row">
+          <div class="gantt-label">
+            <span class="gtask-num" style="background:#0053e2">1</span>
+            <span>Identificaci&oacute;n de transacciones con<br>match OMS + devoluci&oacute;n</span>
+          </div>
+          <div class="gantt-bars">
+            <div class="gantt-grid"></div>
+            <div class="gantt-bar" style="left:0%;width:25%;
+              background:linear-gradient(90deg,#0053e2,#4d8ef5);
+              border-radius:8px"></div>
+          </div>
+        </div>
+
+        <div class="gantt-row">
+          <div class="gantt-label">
+            <span class="gtask-num" style="background:#0053e2">2</span>
+            <span>Bifurcaci&oacute;n de datos</span>
+          </div>
+          <div class="gantt-bars">
+            <div class="gantt-grid"></div>
+            <div class="gantt-bar" style="left:25%;width:13%;
+              background:linear-gradient(90deg,#2563eb,#60a5fa);
+              border-radius:8px"></div>
+          </div>
+        </div>
+
+        <div class="gantt-row">
+          <div class="gantt-label">
+            <span class="gtask-num" style="background:#7c3aed">3</span>
+            <span>Inclusi&oacute;n de datos al proceso de<br>conciliaci&oacute;n principal</span>
+          </div>
+          <div class="gantt-bars">
+            <div class="gantt-grid"></div>
+            <div class="gantt-bar" style="left:35%;width:18%;
+              background:linear-gradient(90deg,#7c3aed,#a855f7);
+              border-radius:8px"></div>
+          </div>
+        </div>
+
+        <div class="gantt-row">
+          <div class="gantt-label">
+            <span class="gtask-num" style="background:#7c3aed">4</span>
+            <span>Unificaci&oacute;n con el proceso final</span>
+          </div>
+          <div class="gantt-bars">
+            <div class="gantt-grid"></div>
+            <div class="gantt-bar" style="left:51%;width:18%;
+              background:linear-gradient(90deg,#9333ea,#c084fc);
+              border-radius:8px"></div>
+          </div>
+        </div>
+
+        <div class="gantt-row">
+          <div class="gantt-label">
+            <span class="gtask-num" style="background:#2a8703">5</span>
+            <span>QA de la soluci&oacute;n</span>
+          </div>
+          <div class="gantt-bars">
+            <div class="gantt-grid"></div>
+            <div class="gantt-bar" style="left:67%;width:33%;
+              background:linear-gradient(90deg,#166534,#2a8703,#4ade80);
+              border-radius:8px"></div>
+          </div>
+        </div>
+
+        <!-- axis labels -->
+        <div class="gantt-axis">
+          <div class="gantt-label" style="visibility:hidden">x</div>
+          <div class="gantt-bars" style="position:relative;padding-top:4px">
+            <span style="position:absolute;left:0;font-size:.72rem;color:#9ca3af">Inicio</span>
+            <span style="position:absolute;right:0;font-size:.72rem;
+              font-weight:700;color:#ffc220">23 Abr</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- LEGEND + ENTREGA -->
+      <div style="display:flex;align-items:center;justify-content:space-between;
+        margin-top:18px;flex-wrap:wrap;gap:10px">
+        <div style="display:flex;gap:18px;align-items:center">
+          <div style="display:flex;align-items:center;gap:6px">
+            <div style="width:13px;height:13px;border-radius:50%;
+              background:#0053e2"></div>
+            <span style="font-size:.78rem;color:#4b5563">Desarrollo</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px">
+            <div style="width:13px;height:13px;border-radius:50%;
+              background:#7c3aed"></div>
+            <span style="font-size:.78rem;color:#4b5563">Integraci&oacute;n</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px">
+            <div style="width:13px;height:13px;border-radius:50%;
+              background:#2a8703"></div>
+            <span style="font-size:.78rem;color:#4b5563">QA</span>
+          </div>
+        </div>
+        <div style="border:2px solid #ffc220;border-radius:100px;
+          padding:6px 18px;display:flex;align-items:center;gap:8px">
+          <span style="font-size:.9rem">&#128197;</span>
+          <span style="font-size:.8rem;font-weight:700;color:#4b5563">
+            Entrega: <span style="color:#e07000">23 Abril 2026</span></span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+</div></div>
   </div>
 </div>
 
@@ -1076,6 +1236,7 @@ const TABS=[
   {panel:document.getElementById('tp1'), ids:["t2_resumen", "s_947_670335", "s_4032_2204745", "s_4032_2208027", "s_4449_2208578", "s_4449_2204012", "s_4449_2205007", "s_4032_2207254", "s_4449_2226546", "s_4449_2227070", "s_831_2223340", "s_831_2220582", "s_831_2215939"]},
   {panel:document.getElementById('tp2'), ids:["t3_ns"]},
   {panel:document.getElementById('tp3'), ids:["t4_impacto"]},
+  {panel:document.getElementById('tp4'), ids:["t5_cron"]},
 ];
 let chartInst=null;
 function initChart(){
@@ -1137,7 +1298,7 @@ buildDots(); upCnt();
 document.addEventListener('keydown',e=>{
   if(e.key==='ArrowRight'||e.key==='ArrowDown') go(+1);
   if(e.key==='ArrowLeft' ||e.key==='ArrowUp')   go(-1);
-  if(e.key==='1') sw(0); if(e.key==='2') sw(1); if(e.key==='3') sw(2); if(e.key==='4') sw(3);
+  if(e.key==='1') sw(0); if(e.key==='2') sw(1); if(e.key==='3') sw(2); if(e.key==='4') sw(3); if(e.key==='5') sw(4);
   if(e.key==='Home') show(0); if(e.key==='End') show(TABS[ct].ids.length-1);
 });
 </script>
