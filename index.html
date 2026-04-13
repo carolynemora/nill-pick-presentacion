@@ -1,382 +1,696 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Casos Nill Pick — eCommerce CAM</title>
 <style>
-  /* ── Reset & base ────────────────────────────────────────── */
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --blue:    #0053e2;
-    --blue-d:  #003a9e;
-    --blue-dd: #00277a;
-    --spark:   #ffc220;
-    --spark-d: #995213;
-    --red:     #ea1100;
-    --green:   #2a8703;
-    --gray160: #1a1a2e;
-    --gray80:  #464646;
-    --gray20:  #f0f2f5;
-    --white:   #ffffff;
-  }
-  html, body { height: 100%; font-family: 'Segoe UI', Calibri, sans-serif; background: #000; overflow: hidden; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#0053e2;--blue-d:#003a9e;--blue-dd:#00277a;
+  --spark:#ffc220;--spark-d:#995213;
+  --red:#ea1100;--green:#2a8703;--orange:#e07000;
+  --g160:#1a1a2e;--g80:#464646;--g50:#8a8a8a;--g20:#f0f2f5;--g10:#f8f9fb;
+  --white:#fff;
+}
+html,body{height:100%;font-family:'Segoe UI',Calibri,sans-serif;background:#000;overflow:hidden}
 
-  /* ── Deck container ─────────────────────────────────────── */
-  .deck { width: 100vw; height: 100vh; position: relative; }
-  .slide {
-    position: absolute; inset: 0;
-    display: flex; flex-direction: column;
-    opacity: 0; pointer-events: none;
-    transition: opacity .45s ease;
-  }
-  .slide.active { opacity: 1; pointer-events: all; }
+/* ── Tabs ── */
+.app{display:flex;flex-direction:column;height:100vh}
+.tab-bar{
+  display:flex;background:var(--blue-dd);flex-shrink:0;
+  border-bottom:3px solid var(--spark);z-index:100;
+}
+.tab-btn{
+  padding:13px 32px;font-size:.92rem;font-weight:600;
+  color:rgba(255,255,255,.6);cursor:pointer;border:none;
+  background:transparent;letter-spacing:.04em;transition:all .2s;
+  border-bottom:3px solid transparent;margin-bottom:-3px;
+}
+.tab-btn.active{color:#fff;border-bottom-color:var(--spark);background:rgba(255,255,255,.07)}
+.tab-btn:hover:not(.active){color:#fff;background:rgba(255,255,255,.05)}
 
-  /* ── Nav dots ────────────────────────────────────────────── */
-  .dots {
-    position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%);
-    display: flex; gap: 8px; z-index: 999;
-  }
-  .dot {
-    width: 9px; height: 9px; border-radius: 50%;
-    background: rgba(255,255,255,.35); cursor: pointer;
-    transition: background .25s, transform .25s;
-  }
-  .dot.on { background: var(--spark); transform: scale(1.35); }
+/* ── Deck ── */
+.tab-panel{display:none;flex:1;position:relative;overflow:hidden}
+.tab-panel.active{display:block}
+.deck{width:100%;height:100%;position:relative}
+.slide{position:absolute;inset:0;opacity:0;pointer-events:none;transition:opacity .4s ease;overflow-y:auto}
+.slide.active{opacity:1;pointer-events:all}
 
-  /* ── Nav arrows ──────────────────────────────────────────── */
-  .arrow {
-    position: fixed; top: 50%; transform: translateY(-50%);
-    z-index: 999; background: rgba(0,0,0,.35); border: none;
-    color: #fff; font-size: 1.6rem; padding: 12px 16px;
-    cursor: pointer; border-radius: 6px; transition: background .2s;
-  }
-  .arrow:hover { background: var(--blue); }
-  .arrow.prev { left: 10px; }
-  .arrow.next { right: 10px; }
+/* ── Nav ── */
+.dots{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:999}
+.dot{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.3);cursor:pointer;transition:all .2s}
+.dot.on{background:var(--spark);transform:scale(1.35)}
+.arrow{position:fixed;top:50%;transform:translateY(-50%);z-index:999;background:rgba(0,0,0,.35);
+  border:none;color:#fff;font-size:1.5rem;padding:10px 15px;cursor:pointer;border-radius:6px;transition:.2s}
+.arrow:hover{background:var(--blue)}
+.arrow.prev{left:8px}.arrow.next{right:8px}
+.counter{position:fixed;top:58px;right:16px;z-index:999;font-size:.78rem;color:rgba(255,255,255,.45)}
 
-  /* ── Slide counter ───────────────────────────────────────── */
-  .counter {
-    position: fixed; top: 14px; right: 18px; z-index: 999;
-    font-size: .82rem; color: rgba(255,255,255,.55); letter-spacing: .05em;
-  }
+/* ── Common slide parts ── */
+.slide-hdr{background:var(--blue);padding:16px 5% 16px 4%;display:flex;align-items:center;
+  justify-content:space-between;flex-shrink:0}
+.slide-hdr h2{font-size:clamp(1.1rem,2.2vw,1.6rem);font-weight:700;color:#fff}
+.badge{padding:5px 14px;border-radius:100px;font-size:.75rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
+.badge-spark{background:var(--spark);color:var(--g160)}
+.badge-red{background:var(--red);color:#fff}
+.badge-green{background:var(--green);color:#fff}
+.badge-gray{background:var(--g50);color:#fff}
+.side-acc{position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--spark)}
+.body{flex:1;padding:20px 5% 16px 5%;display:flex;flex-direction:column;gap:16px}
 
-  /* ══════════════════════════════════════════════════════════
-     SLIDE 1 — PORTADA
-  ══════════════════════════════════════════════════════════ */
-  #s1 {
-    background: linear-gradient(135deg, var(--blue-dd) 0%, var(--blue) 60%, #1a4fd4 100%);
-    justify-content: center; padding: 0 7% 0 9%;
-  }
-  #s1 .accent-bar  { position:absolute; left:0; top:0; bottom:0; width:6px; background:var(--spark); }
-  #s1 .top-stripe  { position:absolute; top:0; right:0; width:28%; height:5px; background:var(--spark); }
-  #s1 .eyebrow {
-    font-size: clamp(.75rem,1.2vw,1rem); font-weight:600; letter-spacing:.18em;
-    text-transform:uppercase; color:var(--spark); margin-bottom:1.4rem;
-  }
-  #s1 h1 {
-    font-size: clamp(2.4rem,5.5vw,4.2rem); font-weight:800;
-    color: var(--white); line-height:1.1; margin-bottom:1.2rem;
-  }
-  #s1 h1 span { color: var(--spark); }
-  #s1 .subtitle {
-    font-size: clamp(1rem,1.8vw,1.35rem); color: rgba(255,255,255,.8);
-    max-width: 640px; line-height:1.55; margin-bottom:2.8rem;
-  }
-  #s1 .pills { display:flex; gap:14px; flex-wrap:wrap; }
-  #s1 .pill {
-    background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.25);
-    color:#fff; padding:7px 18px; border-radius:100px;
-    font-size:.88rem; font-weight:500; letter-spacing:.04em;
-  }
-  #s1 .footer-bar {
-    position:absolute; bottom:0; left:0; right:0; height:52px;
-    background:var(--blue-dd);
-    display:flex; align-items:center; justify-content:space-between;
-    padding:0 6% 0 8%;
-  }
-  #s1 .footer-bar span { font-size:.82rem; color:rgba(255,255,255,.5); }
-  #s1 .footer-bar strong { font-size:.82rem; color:var(--spark); }
+/* ════ TAB 1 ════════════════════════════════════════════════ */
+/* SLIDE 1-1 portada */
+#t1s1{background:linear-gradient(135deg,var(--blue-dd) 0%,var(--blue) 65%,#1a4fd4 100%);
+  justify-content:center;padding:0 7% 0 9%;display:flex;flex-direction:column}
+#t1s1 .acc-bar{position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--spark)}
+#t1s1 .top-s{position:absolute;top:0;right:0;width:28%;height:5px;background:var(--spark)}
+#t1s1 .eyebrow{font-size:clamp(.7rem,1.1vw,.95rem);font-weight:600;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--spark);margin-bottom:1.2rem}
+#t1s1 h1{font-size:clamp(2rem,5vw,3.8rem);font-weight:800;color:#fff;line-height:1.1;margin-bottom:1rem}
+#t1s1 h1 span{color:var(--spark)}
+#t1s1 .sub{font-size:clamp(.9rem,1.6vw,1.2rem);color:rgba(255,255,255,.8);
+  max-width:620px;line-height:1.55;margin-bottom:2.2rem}
+#t1s1 .pills{display:flex;gap:12px;flex-wrap:wrap}
+#t1s1 .pill{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);
+  color:#fff;padding:6px 16px;border-radius:100px;font-size:.85rem;font-weight:500}
+#t1s1 .fbar{position:absolute;bottom:0;left:0;right:0;height:50px;background:var(--blue-dd);
+  display:flex;align-items:center;justify-content:space-between;padding:0 6% 0 8%}
+#t1s1 .fbar span{font-size:.78rem;color:rgba(255,255,255,.45)}
+#t1s1 .fbar strong{font-size:.78rem;color:var(--spark)}
 
-  /* ══════════════════════════════════════════════════════════
-     SLIDE 2 — QUÉ ES EL NILL PICK
-  ══════════════════════════════════════════════════════════ */
-  #s2 { background: var(--gray20); }
-  .slide-header {
-    background: var(--blue); padding: 18px 6% 18px 4%;
-    display:flex; align-items:center; justify-content:space-between;
-    flex-shrink:0;
-  }
-  .slide-header h2 { font-size:clamp(1.2rem,2.5vw,1.75rem); font-weight:700; color:#fff; }
-  .slide-header .badge {
-    background: var(--spark); color: var(--gray160);
-    font-size:.78rem; font-weight:700; padding:5px 14px;
-    border-radius:100px; text-transform:uppercase; letter-spacing:.06em;
-    white-space:nowrap;
-  }
-  .side-accent { position:absolute; left:0; top:0; bottom:0; width:5px; background:var(--spark); }
+/* SLIDE 1-2 Qué es Nill Pick + Contexto (combinado) */
+#t1s2{display:flex;flex-direction:column}
+.def-box{background:var(--blue);border-radius:10px;padding:16px 22px;color:#fff;
+  font-size:clamp(.85rem,1.3vw,1.05rem);line-height:1.6}
+.def-box strong{color:var(--spark)}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;flex:1}
+.info-card{background:#fff;border-radius:10px;padding:18px 18px;display:flex;flex-direction:column;gap:8px;border-left:4px solid var(--blue)}
+.info-card.red{border-left-color:var(--red)}
+.info-card h3{font-size:.95rem;font-weight:700;color:var(--blue)}
+.info-card.red h3{color:var(--red)}
+.info-card ul{list-style:none;display:flex;flex-direction:column;gap:6px}
+.info-card ul li{font-size:.82rem;color:var(--g80);line-height:1.5;padding-left:18px;position:relative}
+.info-card ul li::before{content:'▸';position:absolute;left:0;color:var(--blue)}
+.info-card.red ul li::before{color:var(--red)}
 
-  #s2 .body { flex:1; padding: 22px 5% 16px 5%; display:flex; flex-direction:column; gap:18px; }
+/* Timeline */
+.tl{display:flex;align-items:flex-start;position:relative;margin:4px 0}
+.tl::before{content:'';position:absolute;top:24px;left:24px;right:24px;height:3px;
+  background:linear-gradient(90deg,var(--red),var(--blue));border-radius:2px}
+.tl-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px}
+.tl-dot{width:18px;height:18px;border-radius:50%;border:3px solid #fff;
+  box-shadow:0 0 0 3px var(--red);background:var(--red);z-index:1}
+.tl-dot.blue{background:var(--blue);box-shadow:0 0 0 3px var(--blue)}
+.tl-lbl{font-size:.78rem;font-weight:700;color:var(--red);margin-top:2px}
+.tl-lbl.blue{color:var(--blue)}
+.tl-desc{font-size:.72rem;color:var(--g80);text-align:center;line-height:1.35;max-width:100px}
+.stores-row{display:flex;gap:10px;flex-wrap:wrap}
+.store-chip{background:var(--blue);color:#fff;border-radius:7px;padding:6px 14px;
+  font-size:.8rem;font-weight:600;display:flex;align-items:center;gap:6px}
+.dot-red{width:7px;height:7px;border-radius:50%;background:var(--red)}
 
-  .def-box {
-    background: var(--blue); border-radius:10px;
-    padding: 18px 24px; color:#fff;
-    font-size:clamp(.9rem,1.4vw,1.1rem); line-height:1.6;
-  }
-  .def-box strong { color: var(--spark); }
+/* ════ TAB 2 ════════════════════════════════════════════════ */
+/* Slide 2-1 resumen clasificación */
+#t2s1{display:flex;flex-direction:column}
+.classif-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.cls-card{border-radius:12px;padding:20px 18px;display:flex;flex-direction:column;gap:10px;color:#fff;position:relative;overflow:hidden}
+.cls-card::after{content:'';position:absolute;right:-20px;bottom:-20px;width:90px;height:90px;
+  border-radius:50%;background:rgba(255,255,255,.07)}
+.cls-card .cls-icon{font-size:2rem}
+.cls-card .cls-num{font-size:2.4rem;font-weight:800;line-height:1}
+.cls-card .cls-title{font-size:.88rem;font-weight:700;color:var(--spark)}
+.cls-card .cls-body{font-size:.78rem;line-height:1.5;color:rgba(255,255,255,.82)}
+.cls-refact{background:var(--blue)}
+.cls-cancel{background:var(--g80)}
+.cls-manual{background:var(--orange)}
+.cls-mejora{background:var(--green)}
 
-  .cards-row { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; flex:1; }
-  .card {
-    background: var(--blue); border-radius:12px;
-    padding:22px 20px; display:flex; flex-direction:column; gap:10px;
-    color:#fff; position:relative; overflow:hidden;
-  }
-  .card::after {
-    content:''; position:absolute; right:-18px; bottom:-18px;
-    width:80px; height:80px; border-radius:50%;
-    background:rgba(255,255,255,.06);
-  }
-  .card .card-icon { font-size:2rem; }
-  .card .card-title { font-size:1rem; font-weight:700; color:var(--spark); }
-  .card .card-body  { font-size:.85rem; line-height:1.55; color:rgba(255,255,255,.85); }
+.orders-table{width:100%;border-collapse:collapse;font-size:.8rem}
+.orders-table th{background:var(--blue);color:#fff;padding:8px 12px;text-align:left;font-weight:600}
+.orders-table td{padding:7px 12px;border-bottom:1px solid #e5e9f0;color:var(--g160)}
+.orders-table tr:hover td{background:#f0f4ff}
+.tag{display:inline-block;padding:2px 10px;border-radius:100px;font-size:.72rem;font-weight:700}
+.tag-blue{background:#dbeafe;color:var(--blue)}
+.tag-gray{background:#e5e7eb;color:var(--g80)}
+.tag-orange{background:#fef3c7;color:#92400e}
+.tag-green{background:#d1fae5;color:#065f46}
+.tag-red{background:#fee2e2;color:#991b1b}
 
-  .note-bar {
-    background:#e8ecf8; border-left:4px solid var(--blue);
-    padding:10px 18px; border-radius:0 8px 8px 0;
-    font-size:.82rem; color:var(--gray80);
-  }
+/* Slides de detalle cat */
+.detail-slide{display:flex;flex-direction:column}
+.order-list{display:flex;flex-direction:column;gap:10px}
+.order-row{background:#fff;border-radius:10px;border-left:5px solid var(--blue);
+  padding:14px 18px;display:flex;align-items:flex-start;gap:16px}
+.order-row.cancel{border-left-color:var(--g50)}
+.order-row.manual{border-left-color:var(--orange)}
+.order-row.mejora{border-left-color:var(--green)}
+.or-id{font-size:.92rem;font-weight:700;color:var(--blue);white-space:nowrap}
+.order-row.cancel .or-id{color:var(--g80)}
+.order-row.manual .or-id{color:var(--orange)}
+.order-row.mejora .or-id{color:var(--green)}
+.or-meta{font-size:.75rem;color:var(--g50);margin-top:2px}
+.or-body{flex:1}
+.or-finding{font-size:.82rem;color:var(--g160);line-height:1.5}
+.or-stat{margin-top:6px;display:flex;gap:8px;flex-wrap:wrap}
+.trans-pill{background:#eff6ff;border:1px solid #bfdbfe;color:var(--blue);
+  font-size:.72rem;padding:2px 10px;border-radius:100px;font-weight:600}
+.trans-pill.neg{background:#fff0f0;border-color:#fca5a5;color:var(--red)}
+.trans-pill.lost{background:#fffbeb;border-color:#fcd34d;color:#92400e}
+.trans-pill.gray{background:#f3f4f6;border-color:#d1d5db;color:var(--g80)}
 
-  /* ══════════════════════════════════════════════════════════
-     SLIDE 3 — CONTEXTO
-  ══════════════════════════════════════════════════════════ */
-  #s3 { background: var(--gray20); }
-  #s3 .body { flex:1; padding:20px 5% 14px 5%; display:flex; flex-direction:column; gap:18px; }
+/* diff grid */
+.diff-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:4px}
+.diff-box{background:var(--g20);border-radius:8px;padding:10px 14px;text-align:center}
+.diff-box .dn{font-size:1.5rem;font-weight:800;color:var(--blue)}
+.diff-box .dn.red{color:var(--red)}
+.diff-box .dn.green{color:var(--green)}
+.diff-box .dl{font-size:.72rem;color:var(--g80);margin-top:2px}
 
-  /* Timeline */
-  .timeline { display:flex; align-items:flex-start; gap:0; position:relative; margin: 6px 0 4px; }
-  .timeline::before {
-    content:''; position:absolute; top:28px; left:28px; right:28px; height:3px;
-    background: linear-gradient(90deg, var(--red), var(--blue));
-    border-radius:2px;
-  }
-  .tl-item { flex:1; display:flex; flex-direction:column; align-items:center; gap:8px; }
-  .tl-dot {
-    width:20px; height:20px; border-radius:50%; border:3px solid #fff;
-    box-shadow:0 0 0 3px var(--red); background:var(--red);
-    flex-shrink:0; z-index:1;
-  }
-  .tl-dot.blue { background:var(--blue); box-shadow:0 0 0 3px var(--blue); }
-  .tl-label { font-size:.82rem; font-weight:700; color:var(--red); margin-top:4px; }
-  .tl-label.blue { color:var(--blue); }
-  .tl-desc { font-size:.75rem; color:var(--gray80); text-align:center; line-height:1.4; max-width:110px; }
-
-  /* Impact box */
-  .impact-box {
-    background:#fff; border-radius:10px;
-    border-left:5px solid var(--red);
-    padding:18px 22px; flex:1;
-  }
-  .impact-box h3 { font-size:1.02rem; font-weight:700; color:var(--red); margin-bottom:12px; }
-  .impact-box ul { list-style:none; display:flex; flex-direction:column; gap:9px; }
-  .impact-box ul li {
-    font-size:.88rem; color:var(--gray160); line-height:1.5;
-    padding-left:22px; position:relative;
-  }
-  .impact-box ul li::before {
-    content:'▸'; position:absolute; left:0; color:var(--blue); font-size:.9rem;
-  }
-
-  /* Stores row */
-  .stores-row { display:flex; gap:12px; }
-  .store-chip {
-    background:var(--blue); color:#fff; border-radius:8px;
-    padding:8px 16px; font-size:.82rem; font-weight:600;
-    display:flex; align-items:center; gap:7px;
-  }
-  .store-chip .dot-red { width:8px; height:8px; border-radius:50%; background:var(--red); flex-shrink:0; }
+.note-bar{background:#e8ecf8;border-left:4px solid var(--blue);padding:9px 16px;
+  border-radius:0 8px 8px 0;font-size:.8rem;color:var(--g80)}
+.note-bar.orange{background:#fef9ec;border-left-color:var(--orange)}
+.note-bar.green{background:#ecfdf5;border-left-color:var(--green)}
 </style>
 </head>
 <body>
+<div class="app">
 
+<!-- ═══════════════ TAB BAR ═══════════════ -->
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab(0)">📋 Contexto y Nill Pick</button>
+  <button class="tab-btn" onclick="switchTab(1)">🔍 Clasificación de Casos</button>
+</div>
+
+<!-- ═══════════════ TAB 1 ═══════════════ -->
+<div class="tab-panel active" id="tab0">
 <div class="deck">
 
-  <!-- ── SLIDE 1: PORTADA ────────────────────────────────── -->
-  <section class="slide active" id="s1">
-    <div class="accent-bar"></div>
-    <div class="top-stripe"></div>
-
+  <!-- 1-1 PORTADA -->
+  <section class="slide active" id="t1s1">
+    <div class="acc-bar"></div>
+    <div class="top-s"></div>
     <p class="eyebrow">eCommerce CAM · Data &amp; Analytics</p>
     <h1>Casos <span>Nill Pick</span><br>en Operación</h1>
-    <p class="subtitle">
-      Desde el <strong style="color:var(--spark)">27 de marzo de 2026</strong>, la operación
+    <p class="sub">Desde el <strong style="color:var(--spark)">27 de marzo de 2026</strong>, la operación
       ha reportado órdenes que afectan directamente el nuevo indicador de
       <strong style="color:var(--spark)">Nill Pick</strong>, comprometiendo la trazabilidad
-      contable y la experiencia del cliente.
-    </p>
-
+      contable y la experiencia del cliente.</p>
     <div class="pills">
       <span class="pill">📍 Costa Rica</span>
       <span class="pill">📦 eCommerce On Demand</span>
       <span class="pill">🆕 Nuevo indicador</span>
       <span class="pill">⚠️ Casos activos desde 27 Mar</span>
     </div>
-
-    <div class="footer-bar">
+    <div class="fbar">
       <span>eCommerce CAM &nbsp;|&nbsp; Data &amp; Analytics &nbsp;|&nbsp; 2026</span>
       <strong>Nill Pick · Análisis de casos operativos</strong>
     </div>
   </section>
 
-  <!-- ── SLIDE 2: QUÉ ES EL NILL PICK ───────────────────── -->
-  <section class="slide" id="s2">
-    <div class="side-accent"></div>
-    <div class="slide-header">
-      <h2>¿Qué es el Nill Pick?</h2>
-      <span class="badge">🆕 Nuevo indicador</span>
+  <!-- 1-2 QUÉ ES + CONTEXTO combinado -->
+  <section class="slide" id="t1s2">
+    <div class="side-acc"></div>
+    <div class="slide-hdr">
+      <h2>¿Qué es el Nill Pick? &nbsp;·&nbsp; Contexto operativo</h2>
+      <span class="badge badge-spark">🆕 Nuevo indicador</span>
     </div>
-
     <div class="body">
       <div class="def-box">
-        El <strong>Nill Pick</strong> es un indicador que mide la cantidad de
-        artículos de un pedido que <strong>NO pudieron ser entregados al cliente</strong>
-        porque no se encontraron disponibles al momento del <em>picking</em> en tienda.
-        Un artículo se contabiliza como Nill Pick cuando el pedido fue confirmado
-        pero el ítem <strong>no pudo ser despachado</strong>.
+        El <strong>Nill Pick</strong> es un indicador que mide artículos de un pedido que
+        <strong>NO pudieron ser entregados</strong> al momento del picking en tienda.
+        Un ítem se contabiliza como Nill Pick cuando fue cobrado pero
+        <strong>no pudo ser despachado</strong>. Su correcta medición es crítica:
+        una inconsistencia en las transacciones de refactura puede hacer que el sistema
+        contabilice Nill Picks que <strong>no corresponden a ítems realmente no entregados</strong>.
       </div>
 
-      <div class="cards-row">
-        <div class="card">
-          <span class="card-icon">🆕</span>
-          <p class="card-title">Indicador Nuevo</p>
-          <p class="card-body">
-            Recientemente incorporado como métrica clave de desempeño operativo
-            en eCommerce CAM. Su correcta medición es crítica para la toma de
-            decisiones del negocio.
-          </p>
+      <div class="two-col">
+        <div class="info-card">
+          <h3>¿Qué mide y por qué importa?</h3>
+          <ul>
+            <li>Órdenes donde el ítem fue cobrado pero <strong>no pickeado ni entregado</strong></li>
+            <li>Afecta la <strong>experiencia del cliente</strong> directamente</li>
+            <li>Distorsiona la trazabilidad contable del pedido</li>
+            <li>Un Nill Pick mal contabilizado <strong>oculta problemas reales</strong> de inventario</li>
+            <li>Alineado con los KPIs Operativos On demand del dashboard eCommerce CAM</li>
+          </ul>
         </div>
-        <div class="card">
-          <span class="card-icon">📦</span>
-          <p class="card-title">¿Qué mide?</p>
-          <p class="card-body">
-            Órdenes o líneas de pedido donde el ítem fue procesado y cobrado
-            pero <strong style="color:var(--spark)">no pudo ser pickeado</strong>
-            ni entregado al cliente en tienda.
-          </p>
+        <div class="info-card red">
+          <h3>Casos reportados desde operación</h3>
+          <div class="tl" style="margin-bottom:8px">
+            <div class="tl-item">
+              <div class="tl-dot"></div>
+              <p class="tl-lbl">27 Mar</p>
+              <p class="tl-desc">Primeros casos reportados</p>
+            </div>
+            <div class="tl-item">
+              <div class="tl-dot"></div>
+              <p class="tl-lbl">28–29 Mar</p>
+              <p class="tl-desc">Escalamiento Escazú, La Lima, Blvd Norte</p>
+            </div>
+            <div class="tl-item">
+              <div class="tl-dot"></div>
+              <p class="tl-lbl">Abr 2026</p>
+              <p class="tl-desc">Nuevos casos manuales y cancelados</p>
+            </div>
+            <div class="tl-item">
+              <div class="tl-dot blue"></div>
+              <p class="tl-lbl blue">Hoy</p>
+              <p class="tl-desc">Análisis BQ — 14 órdenes validadas</p>
+            </div>
+          </div>
+          <ul>
+            <li>Transacciones de refactura con ítems que no coinciden entre sí</li>
+            <li>Sistema contabiliza Nill Picks que <strong>no corresponden a entregas fallidas</strong></li>
+            <li>Lógica de conciliación no asocia correctamente las 3 transacciones</li>
+          </ul>
+          <div class="stores-row" style="margin-top:6px">
+            <div class="store-chip"><span class="dot-red"></span>Walmart La Lima</div>
+            <div class="store-chip"><span class="dot-red"></span>Walmart Escazú</div>
+            <div class="store-chip"><span class="dot-red"></span>Blvd Norte</div>
+            <div class="store-chip"><span class="dot-red"></span>Tienda 831</div>
+          </div>
         </div>
-        <div class="card">
-          <span class="card-icon">⚠️</span>
-          <p class="card-title">¿Por qué importa?</p>
-          <p class="card-body">
-            Afecta directamente la <strong style="color:var(--spark)">experiencia del cliente</strong>
-            y la <strong style="color:var(--spark)">trazabilidad contable</strong> del pedido.
-            Un Nill Pick mal contabilizado distorsiona el indicador y oculta
-            problemas reales de inventario.
-          </p>
-        </div>
-      </div>
-
-      <div class="note-bar">
-        📊 Este indicador está alineado con los <strong>KPIs Operativos On demand</strong>
-        del dominio eCommerce CAM y se monitorea en el dashboard operativo del equipo.
       </div>
     </div>
   </section>
 
-  <!-- ── SLIDE 3: CONTEXTO ──────────────────────────────── -->
-  <section class="slide" id="s3">
-    <div class="side-accent"></div>
-    <div class="slide-header">
-      <h2>Contexto: casos reportados desde operación</h2>
-      <span class="badge" style="background:var(--red);color:#fff">⚠️ Activo</span>
-    </div>
+</div><!-- /deck tab1 -->
+</div><!-- /tab-panel 0 -->
 
+<!-- ═══════════════ TAB 2 ═══════════════ -->
+<div class="tab-panel" id="tab1">
+<div class="deck">
+
+  <!-- 2-1 RESUMEN clasificación -->
+  <section class="slide active" id="t2s1">
+    <div class="side-acc"></div>
+    <div class="slide-hdr">
+      <h2>Clasificación de los 14 casos analizados</h2>
+      <span class="badge badge-red">⚠️ 14 órdenes</span>
+    </div>
     <div class="body">
-
-      <!-- Timeline -->
-      <div class="timeline">
-        <div class="tl-item">
-          <div class="tl-dot"></div>
-          <p class="tl-label">27 Mar</p>
-          <p class="tl-desc">Primeros casos reportados por la operación</p>
+      <div class="classif-grid">
+        <div class="cls-card cls-refact">
+          <span class="cls-icon">🔄</span>
+          <span class="cls-num">5</span>
+          <p class="cls-title">Con refacturación</p>
+          <p class="cls-body">3 transacciones presentes. Diferencias entre trans son esperadas y confirman la refacturación.</p>
         </div>
-        <div class="tl-item">
-          <div class="tl-dot"></div>
-          <p class="tl-label">28 Mar</p>
-          <p class="tl-desc">Nuevos reportes — Walmart Boulevard del Norte</p>
+        <div class="cls-card cls-cancel">
+          <span class="cls-icon">🚫</span>
+          <span class="cls-num">2</span>
+          <p class="cls-title">Cancelados</p>
+          <p class="cls-body">Sin trazabilidad en OMS. No realizan match por estar cancelados antes del picking.</p>
         </div>
-        <div class="tl-item">
-          <div class="tl-dot"></div>
-          <p class="tl-label">29 Mar</p>
-          <p class="tl-desc">Escalamiento — Walmart Escazú y La Lima</p>
+        <div class="cls-card cls-manual">
+          <span class="cls-icon">✍️</span>
+          <span class="cls-num">3</span>
+          <p class="cls-title">Facturación manual incorrecta</p>
+          <p class="cls-body">Tienda factura manualmente sin registrar la caja. No ingresan al proceso de conciliación.</p>
         </div>
-        <div class="tl-item">
-          <div class="tl-dot blue"></div>
-          <p class="tl-label blue">Hoy</p>
-          <p class="tl-desc">Análisis en curso — validado en BigQuery</p>
+        <div class="cls-card cls-mejora">
+          <span class="cls-icon">🔧</span>
+          <span class="cls-num">4</span>
+          <p class="cls-title">Mejoras en lectura de datos</p>
+          <p class="cls-body">Casos con datos insuficientes, transacciones cruzadas o falta de refactura identificada.</p>
         </div>
       </div>
 
-      <!-- Impact -->
-      <div class="impact-box">
-        <h3>¿Cuál es el impacto?</h3>
-        <ul>
-          <li>Las órdenes reportadas presentan <strong>transacciones de refactura</strong> (positiva, negativa y perdida) cuyos ítems no coinciden entre sí.</li>
-          <li>Esta inconsistencia provoca que el sistema <strong>contabilice Nill Picks que no corresponden</strong> a artículos realmente no entregados.</li>
-          <li>El indicador se ve directamente afectado porque la <strong>lógica de conciliación</strong> no logra asociar correctamente todas las transacciones del pedido.</li>
-          <li>Los casos fueron validados contra el datalake BigQuery confirmando <strong>diferencias reales de ítems</strong> entre transacciones del mismo pedido.</li>
-        </ul>
-      </div>
-
-      <!-- Tiendas -->
-      <div class="stores-row">
-        <div class="store-chip"><span class="dot-red"></span>Walmart La Lima</div>
-        <div class="store-chip"><span class="dot-red"></span>Walmart Escazú</div>
-        <div class="store-chip"><span class="dot-red"></span>Walmart Boulevard del Norte</div>
-      </div>
-
+      <table class="orders-table">
+        <thead>
+          <tr><th>Pedido</th><th>Tienda</th><th>Fecha</th><th>Status</th><th>Clasificación</th><th>Hallazgo clave</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>4449-2205007</td><td>La Lima</td><td>27 Mar</td><td>Entregado</td><td><span class="tag tag-blue">🔄 Refacturación</span></td><td>1/44 ítems con diferencia (ítem ECOMMERCE)</td></tr>
+          <tr><td>4449-2204012</td><td>La Lima</td><td>27 Mar</td><td>Entregado</td><td><span class="tag tag-blue">🔄 Refacturación</span></td><td>3/24 ítems solo en T-Negativa</td></tr>
+          <tr><td>4449-2208578</td><td>La Lima</td><td>29 Mar</td><td>Entregado</td><td><span class="tag tag-blue">🔄 Refacturación</span></td><td>27/50 ítems con diferencia (54%)</td></tr>
+          <tr><td>4032-2208027</td><td>Escazú</td><td>29 Mar</td><td>Entregado</td><td><span class="tag tag-blue">🔄 Refacturación</span></td><td>3/35 ítems solo en T-Positiva</td></tr>
+          <tr><td>4032-2204745</td><td>Escazú</td><td>27 Mar</td><td>Entregado</td><td><span class="tag tag-blue">🔄 Refacturación</span></td><td>T-Perdida vacía — 100% diferencia</td></tr>
+          <tr><td>831-2220582</td><td>Tienda 831</td><td>05 Abr</td><td>Cancelado</td><td><span class="tag tag-gray">🚫 Cancelado</span></td><td>Sin trazabilidad OMS por cancelación</td></tr>
+          <tr><td>831-2215939</td><td>Tienda 831</td><td>02 Abr</td><td>Cancelado</td><td><span class="tag tag-gray">🚫 Cancelado</span></td><td>Sin trazabilidad OMS por cancelación</td></tr>
+          <tr><td>4449-2226546</td><td>La Lima</td><td>09 Abr</td><td>Entregado</td><td><span class="tag tag-orange">✍️ Manual incorrecta</span></td><td>Factura manual sin info de caja</td></tr>
+          <tr><td>4449-2227070</td><td>La Lima</td><td>09 Abr</td><td>Entregado</td><td><span class="tag tag-orange">✍️ Manual incorrecta</span></td><td>Factura manual sin info de caja</td></tr>
+          <tr><td>831-2223340</td><td>Tienda 831</td><td>07 Abr</td><td>Entregado</td><td><span class="tag tag-orange">✍️ Manual incorrecta</span></td><td>Factura manual sin info de caja</td></tr>
+          <tr><td>947-670335</td><td>Blvd Norte</td><td>28 Mar</td><td>Entregado</td><td><span class="tag tag-green">🔧 Mejora lectura</span></td><td>Solo 2 trans, ambas Encontrada/Dev, sin Match OMS</td></tr>
+          <tr><td>4032-2207254</td><td>Escazú</td><td>28 Mar</td><td>Entregado</td><td><span class="tag tag-green">🔧 Mejora lectura</span></td><td>Trans 8278 pertenece a otro pedido</td></tr>
+          <tr><td>4449-2227495</td><td>La Lima</td><td>10 Abr</td><td>Entregado</td><td><span class="tag tag-green">🔧 Mejora lectura</span></td><td>Solo 2 trans — falta transacción de refactura</td></tr>
+          <tr><td>831-2221405</td><td>Tienda 831</td><td>06 Abr</td><td>Entregado</td><td><span class="tag tag-green">🔧 Mejora lectura</span></td><td>Solo 2 trans — falta transacción de refactura</td></tr>
+        </tbody>
+      </table>
     </div>
   </section>
 
-</div><!-- /deck -->
+  <!-- 2-2 REFACTURACIÓN -->
+  <section class="slide detail-slide" id="t2s2">
+    <div class="side-acc"></div>
+    <div class="slide-hdr">
+      <h2>🔄 Con Refacturación — 3 transacciones presentes</h2>
+      <span class="badge badge-spark">5 órdenes</span>
+    </div>
+    <div class="body">
+      <div class="note-bar">
+        💡 <strong>Principio clave:</strong> En una refacturación correcta, se espera que existan diferencias entre las 3 transacciones (positiva, negativa, perdida). La diferencia NO es el problema — es la confirmación de que ocurrió la refacturación.
+      </div>
+      <div class="order-list">
 
-<!-- Nav -->
+        <div class="order-row">
+          <div>
+            <div class="or-id">4449-2205007</div>
+            <div class="or-meta">La Lima · 27 Mar · Entregado</div>
+          </div>
+          <div class="or-body">
+            <div class="or-finding">44 ítems analizados. Solo <strong>1 ítem con diferencia</strong>: ítem "ECOMMERCE" (cargo de plataforma) aparece únicamente en T-Perdida. Las 3 transacciones son prácticamente idénticas. <strong>Comportamiento esperado ✅</strong></div>
+            <div class="or-stat">
+              <span class="trans-pill">T-Positiva: trans 9007 reg 14</span>
+              <span class="trans-pill neg">T-Negativa: trans 8753 reg 16</span>
+              <span class="trans-pill lost">T-Perdida: trans 9010 reg 14</span>
+            </div>
+            <div class="diff-summary">
+              <div class="diff-box"><div class="dn green">43</div><div class="dl">Ítems iguales</div></div>
+              <div class="diff-box"><div class="dn red">1</div><div class="dl">Con diferencia</div></div>
+              <div class="diff-box"><div class="dn green">2.3%</div><div class="dl">% diferencia</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="order-row">
+          <div>
+            <div class="or-id">4449-2204012</div>
+            <div class="or-meta">La Lima · 27 Mar · Entregado</div>
+          </div>
+          <div class="or-body">
+            <div class="or-finding"><strong>3 ítems solo en T-Negativa</strong>: CHOCOLATE MMS, SET PIJAMA SHORT, TSHIRT NINA DISNEY. Podrían ser ítems devueltos que no formaban parte del pedido original o escaneados de más en la refactura.</div>
+            <div class="or-stat">
+              <span class="trans-pill">T-Positiva: trans 8850 reg 14</span>
+              <span class="trans-pill neg">T-Negativa: trans 8747 reg 16</span>
+              <span class="trans-pill lost">T-Perdida: trans 8853 reg 14</span>
+            </div>
+            <div class="diff-summary">
+              <div class="diff-box"><div class="dn green">21</div><div class="dl">Ítems iguales</div></div>
+              <div class="diff-box"><div class="dn red">3</div><div class="dl">Con diferencia</div></div>
+              <div class="diff-box"><div class="dn">12.5%</div><div class="dl">% diferencia</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="order-row">
+          <div>
+            <div class="or-id">4449-2208578</div>
+            <div class="or-meta">La Lima · 29 Mar · Entregado</div>
+          </div>
+          <div class="or-body">
+            <div class="or-finding"><strong>27/50 ítems con diferencia (54%)</strong>. 25 ítems solo en T-Positiva, 2 solo en T-Perdida. La T-Perdida (trans 9595) parece ser de un pedido diferente — no es la refactura del mismo pedido. <span style="color:var(--red);font-weight:700">⚠️ Caso crítico</span></div>
+            <div class="or-stat">
+              <span class="trans-pill">T-Positiva: trans 9590 reg 14</span>
+              <span class="trans-pill neg">T-Negativa: trans 8790 reg 16</span>
+              <span class="trans-pill lost">T-Perdida: trans 9595 reg 14</span>
+            </div>
+            <div class="diff-summary">
+              <div class="diff-box"><div class="dn green">23</div><div class="dl">Ítems iguales</div></div>
+              <div class="diff-box"><div class="dn red">27</div><div class="dl">Con diferencia</div></div>
+              <div class="diff-box"><div class="dn red">54%</div><div class="dl">% diferencia</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="order-row">
+          <div>
+            <div class="or-id">4032-2208027</div>
+            <div class="or-meta">Escazú · 29 Mar · Entregado</div>
+          </div>
+          <div class="or-body">
+            <div class="or-finding"><strong>3 ítems solo en T-Positiva</strong>: COCA COLA SIN AZÚCAR, QUESO DEL PRADO, YOGURT YES. Productos cobrados que no llegaron a la refactura ni a la transacción perdida. Posibles sustituciones o sin stock al momento de entrega.</div>
+            <div class="or-stat">
+              <span class="trans-pill">T-Positiva: trans 8250 reg 1</span>
+              <span class="trans-pill neg">T-Negativa: trans 9552 reg 4</span>
+              <span class="trans-pill lost">T-Perdida: trans 8419 reg 1</span>
+            </div>
+            <div class="diff-summary">
+              <div class="diff-box"><div class="dn green">32</div><div class="dl">Ítems iguales</div></div>
+              <div class="diff-box"><div class="dn red">3</div><div class="dl">Con diferencia</div></div>
+              <div class="diff-box"><div class="dn">8.6%</div><div class="dl">% diferencia</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="order-row">
+          <div>
+            <div class="or-id">4032-2204745</div>
+            <div class="or-meta">Escazú · 27 Mar · Entregado</div>
+          </div>
+          <div class="or-body">
+            <div class="or-finding"><strong>100% de diferencias — T-Perdida completamente vacía</strong>. La transacción perdida (trans 8255) no registra ningún ítem en el datalake. La T-Perdida además es de fecha 2026-03-29 (diferente al pedido). No corresponde a este pedido. <span style="color:var(--red);font-weight:700">⚠️ Urgente</span></div>
+            <div class="or-stat">
+              <span class="trans-pill">T-Positiva: trans 7654 reg 1</span>
+              <span class="trans-pill neg">T-Negativa: trans 9433 reg 4</span>
+              <span class="trans-pill lost">T-Perdida: trans 8255 reg 1 (29 Mar)</span>
+            </div>
+            <div class="diff-summary">
+              <div class="diff-box"><div class="dn red">0</div><div class="dl">Ítems iguales</div></div>
+              <div class="diff-box"><div class="dn red">43</div><div class="dl">Con diferencia</div></div>
+              <div class="diff-box"><div class="dn red">100%</div><div class="dl">% diferencia</div></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 2-3 CANCELADOS -->
+  <section class="slide detail-slide" id="t2s3">
+    <div class="side-acc" style="background:var(--g50)"></div>
+    <div class="slide-hdr" style="background:var(--g80)">
+      <h2>🚫 Cancelados — Sin trazabilidad OMS</h2>
+      <span class="badge badge-gray">2 órdenes</span>
+    </div>
+    <div class="body">
+      <div class="note-bar" style="border-left-color:var(--g80);background:#f3f4f6">
+        📌 <strong>¿Por qué no tienen match?</strong> Los pedidos cancelados no generan trazabilidad en el OMS porque fueron cancelados antes de completar el flujo de picking y despacho. No existe transacción de Match OMS porque la venta nunca se concretó.
+      </div>
+      <div class="order-list">
+        <div class="order-row cancel">
+          <div>
+            <div class="or-id">831-2220582</div>
+            <div class="or-meta">Tienda 831 · 05 Abr · <strong style="color:var(--red)">Cancelado</strong></div>
+          </div>
+          <div class="or-body">
+            <div class="or-finding">Pedido no tiene trazabilidad porque se encuentra cancelado. No realiza match con OMS. No aplica análisis de transacciones ya que el pedido fue cancelado antes del proceso de picking.</div>
+            <div class="or-stat"><span class="trans-pill gray">Sin transacciones registradas</span></div>
+          </div>
+        </div>
+        <div class="order-row cancel">
+          <div>
+            <div class="or-id">831-2215939</div>
+            <div class="or-meta">Tienda 831 · 02 Abr · <strong style="color:var(--red)">Cancelado</strong></div>
+          </div>
+          <div class="or-body">
+            <div class="or-finding">Pedido no tiene trazabilidad porque se encuentra cancelado. No realiza match con OMS. No aplica análisis de transacciones ya que el pedido fue cancelado antes del proceso de picking.</div>
+            <div class="or-stat"><span class="trans-pill gray">Sin transacciones registradas</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="note-bar" style="border-left-color:var(--g80);background:#f3f4f6;margin-top:4px">
+        🔍 <strong>Impacto en Nill Pick:</strong> Si el sistema intenta asociar estos pedidos, podría contabilizar Nill Picks incorrectos. Se recomienda excluir pedidos cancelados del cálculo del indicador.
+      </div>
+    </div>
+  </section>
+
+  <!-- 2-4 FACTURACIÓN MANUAL -->
+  <section class="slide detail-slide" id="t2s4">
+    <div class="side-acc" style="background:var(--orange)"></div>
+    <div class="slide-hdr" style="background:var(--orange)">
+      <h2>✍️ Facturación Manual Incorrecta</h2>
+      <span class="badge" style="background:#fff;color:var(--orange)">3 órdenes</span>
+    </div>
+    <div class="body">
+      <div class="note-bar orange">
+        ⚠️ <strong>Problema raíz:</strong> La tienda procesa la orden de forma manual pero <strong>no registra la información de la caja (register)</strong> en la que factura. Sin este dato, la orden no puede ingresar al proceso de conciliación automática.
+      </div>
+      <div class="order-list">
+        <div class="order-row manual">
+          <div>
+            <div class="or-id">4449-2226546</div>
+            <div class="or-meta">Walmart La Lima · 09 Abr · Entregado</div>
+          </div>
+          <div class="or-body">
+            <div class="or-finding">Orden procesada manualmente de forma incompleta. La tienda no registró la información de la caja en la que facturó. <strong>No se encuentra en el proceso de conciliación.</strong></div>
+            <div class="or-stat"><span class="trans-pill" style="background:#fff4e6;border-color:#fed7aa;color:#92400e">Sin caja registrada</span><span class="trans-pill" style="background:#fff4e6;border-color:#fed7aa;color:#92400e">Fuera de conciliación</span></div>
+          </div>
+        </div>
+        <div class="order-row manual">
+          <div>
+            <div class="or-id">4449-2227070</div>
+            <div class="or-meta">Walmart La Lima · 09 Abr · Entregado</div>
+          </div>
+          <div class="or-body">
+            <div class="or-finding">Orden procesada manualmente de forma incompleta. La tienda no registró la información de la caja en la que facturó. <strong>No se encuentra en el proceso de conciliación.</strong></div>
+            <div class="or-stat"><span class="trans-pill" style="background:#fff4e6;border-color:#fed7aa;color:#92400e">Sin caja registrada</span><span class="trans-pill" style="background:#fff4e6;border-color:#fed7aa;color:#92400e">Fuera de conciliación</span></div>
+          </div>
+        </div>
+        <div class="order-row manual">
+          <div>
+            <div class="or-id">831-2223340</div>
+            <div class="or-meta">Tienda 831 · 07 Abr · Entregado</div>
+          </div>
+          <div class="or-body">
+            <div class="or-finding">Orden procesada manualmente de forma incompleta. La tienda no registró la información de la caja en la que facturó. <strong>No se encuentra en el proceso de conciliación.</strong></div>
+            <div class="or-stat"><span class="trans-pill" style="background:#fff4e6;border-color:#fed7aa;color:#92400e">Sin caja registrada</span><span class="trans-pill" style="background:#fff4e6;border-color:#fed7aa;color:#92400e">Fuera de conciliación</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="note-bar orange">
+        🔧 <strong>Acción recomendada:</strong> Capacitar a las tiendas en el proceso correcto de facturación manual incluyendo el registro obligatorio de la caja. Evaluar si se puede capturar este dato de forma retroactiva para estos 3 casos.
+      </div>
+    </div>
+  </section>
+
+  <!-- 2-5 MEJORAS EN LECTURA -->
+  <section class="slide detail-slide" id="t2s5">
+    <div class="side-acc" style="background:var(--green)"></div>
+    <div class="slide-hdr" style="background:var(--green)">
+      <h2>🔧 Mejoras en Lectura de Datos</h2>
+      <span class="badge badge-green" style="background:#fff;color:var(--green)">4 órdenes</span>
+    </div>
+    <div class="body">
+      <div class="note-bar green">
+        🔍 <strong>¿Qué son?</strong> Casos donde la data existe en el datalake pero hay inconsistencias que requieren mejoras en la lógica de lectura o en el proceso operativo para poder conciliarlos correctamente.
+      </div>
+      <div class="order-list">
+        <div class="order-row mejora">
+          <div>
+            <div class="or-id">947-670335</div>
+            <div class="or-meta">Blvd Norte · 28 Mar · Entregado</div>
+          </div>
+          <div class="or-body">
+            <div class="or-finding">Solo 2 transacciones identificadas, <strong>ambas clasificadas como Encontrada/Devolución</strong>. No existe transacción de Match OMS. La transacción "perdida" en el archivo es la misma que la primera (trans 7591). No se puede determinar cuál es la positiva para hacer la comparación de 3 vías.</div>
+            <div class="or-stat">
+              <span class="trans-pill neg">Trans 7591 reg 15 — Encontrada/Dev</span>
+              <span class="trans-pill neg">Trans 6097 reg 6 — Encontrada/Dev</span>
+              <span class="trans-pill gray">Sin Match OMS identificado</span>
+            </div>
+          </div>
+        </div>
+        <div class="order-row mejora">
+          <div>
+            <div class="or-id">4032-2207254</div>
+            <div class="or-meta">Escazú · 28 Mar · Entregado</div>
+          </div>
+          <div class="or-body">
+            <div class="or-finding">El pedido <strong>no aparece asociado a ninguna transacción</strong> en el sistema. La única transacción encontrada (trans 8278) está vinculada a un <strong>pedido completamente diferente: 4032-1608048-V</strong> (fecha 2025-04-29). Posible error de asociación en el sistema de conciliación o transacción cruzada entre pedidos.</div>
+            <div class="or-stat">
+              <span class="trans-pill" style="background:#fee2e2;border-color:#fca5a5;color:#991b1b">Trans 8278 → pertenece a 4032-1608048-V</span>
+              <span class="trans-pill gray">Sin transacción propia del pedido</span>
+            </div>
+          </div>
+        </div>
+        <div class="order-row mejora">
+          <div>
+            <div class="or-id">4449-2227495</div>
+            <div class="or-meta">La Lima · 10 Abr · Entregado</div>
+          </div>
+          <div class="or-body">
+            <div class="or-finding">Solo 2 transacciones: Match OMS (trans 4360) y Encontrada/Devolución (trans 8933). <strong>Falta la transacción de refactura (T-Perdida)</strong>. El sistema indica que se necesita la orden de refacturación pero en este momento no se identifica la transacción positiva asociada.</div>
+            <div class="or-stat">
+              <span class="trans-pill">T-Positiva: trans 4360 reg 7</span>
+              <span class="trans-pill neg">T-Negativa: trans 8933 reg 16</span>
+              <span class="trans-pill gray">T-Perdida: no identificada ⚠️</span>
+            </div>
+          </div>
+        </div>
+        <div class="order-row mejora">
+          <div>
+            <div class="or-id">831-2221405</div>
+            <div class="or-meta">Tienda 831 · 06 Abr · Entregado</div>
+          </div>
+          <div class="or-body">
+            <div class="or-finding">Solo 2 transacciones: Match OMS (trans 447) y Encontrada/Devolución (trans 522). <strong>Falta la transacción de refactura (T-Perdida)</strong>. Se necesita la orden de refacturación — en este momento no se identifica la transacción positiva asociada.</div>
+            <div class="or-stat">
+              <span class="trans-pill">T-Positiva: trans 447 reg 9</span>
+              <span class="trans-pill neg">T-Negativa: trans 522 reg 9</span>
+              <span class="trans-pill gray">T-Perdida: no identificada ⚠️</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /deck tab2 -->
+</div><!-- /tab-panel 1 -->
+
+</div><!-- /app -->
+
+<!-- Nav global -->
 <button class="arrow prev" onclick="go(-1)">&#8592;</button>
 <button class="arrow next" onclick="go(+1)">&#8594;</button>
 <div class="dots" id="dots"></div>
 <div class="counter" id="counter"></div>
 
 <script>
-  const slides = document.querySelectorAll('.slide');
-  const dotsEl  = document.getElementById('dots');
-  const counter = document.getElementById('counter');
-  let cur = 0;
+const TABS = [
+  { panel: document.getElementById('tab0'), slides: ['t1s1','t1s2'] },
+  { panel: document.getElementById('tab1'), slides: ['t2s1','t2s2','t2s3','t2s4','t2s5'] },
+];
+const tabBtns = document.querySelectorAll('.tab-btn');
+const dotsEl  = document.getElementById('dots');
+const counterEl = document.getElementById('counter');
 
-  // Build dots
-  slides.forEach((_, i) => {
-    const d = document.createElement('div');
-    d.className = 'dot' + (i===0?' on':'');
-    d.onclick = () => goTo(i);
+let curTab = 0, curSlide = 0;
+
+function buildDots(){
+  dotsEl.innerHTML='';
+  TABS[curTab].slides.forEach((_,i)=>{
+    const d=document.createElement('div');
+    d.className='dot'+(i===curSlide?' on':'');
+    d.onclick=()=>goTo(i);
     dotsEl.appendChild(d);
   });
+}
 
-  function goTo(n) {
-    slides[cur].classList.remove('active');
-    dotsEl.children[cur].classList.remove('on');
-    cur = (n + slides.length) % slides.length;
-    slides[cur].classList.add('active');
-    dotsEl.children[cur].classList.add('on');
-    counter.textContent = (cur+1) + ' / ' + slides.length;
-  }
-  function go(d) { goTo(cur+d); }
+function updateCounter(){
+  counterEl.textContent=(curSlide+1)+' / '+TABS[curTab].slides.length;
+}
 
-  counter.textContent = '1 / ' + slides.length;
+function showSlide(idx){
+  const ids = TABS[curTab].slides;
+  ids.forEach(id=>document.getElementById(id).classList.remove('active'));
+  curSlide = (idx+ids.length)%ids.length;
+  document.getElementById(ids[curSlide]).classList.add('active');
+  dotsEl.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('on',i===curSlide));
+  updateCounter();
+}
 
-  document.addEventListener('keydown', e => {
-    if (e.key === 'ArrowRight' || e.key === 'ArrowDown')  go(+1);
-    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')    go(-1);
-    if (e.key === 'Home') goTo(0);
-    if (e.key === 'End')  goTo(slides.length-1);
+function go(d){ showSlide(curSlide+d); }
+function goTo(i){ showSlide(i); }
+
+function switchTab(t){
+  TABS[curTab].panel.classList.remove('active');
+  tabBtns[curTab].classList.remove('active');
+  curTab=t; curSlide=0;
+  TABS[curTab].panel.classList.add('active');
+  tabBtns[curTab].classList.add('active');
+  // reset slides in new tab
+  TABS[curTab].slides.forEach((id,i)=>{
+    const el=document.getElementById(id);
+    el.classList.toggle('active',i===0);
   });
+  buildDots(); updateCounter();
+}
+
+buildDots(); updateCounter();
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key==='ArrowDown') go(+1);
+  if(e.key==='ArrowLeft' ||e.key==='ArrowUp')   go(-1);
+  if(e.key==='Home') goTo(0);
+  if(e.key==='End')  goTo(TABS[curTab].slides.length-1);
+  if(e.key==='1') switchTab(0);
+  if(e.key==='2') switchTab(1);
+});
 </script>
 </body>
 </html>
