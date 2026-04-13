@@ -4,6 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Nill Pick · Causas Raíz · eCommerce CAM</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{--bl:#0053e2;--bld:#00277a;--sp:#ffc220;--rd:#ea1100;--gr:#2a8703;--or:#e07000}
@@ -125,6 +126,19 @@ html,body{height:100%;font-family:'Segoe UI',Calibri,sans-serif;background:#0a0a
 .ns-impact{border-radius:7px;padding:9px 11px;display:flex;align-items:flex-start;gap:8px;
   font-size:.75rem;color:#464646;line-height:1.4}
 .ns-impact div strong{display:block;font-size:.77rem;margin-bottom:2px}
+/* Tab 4 - impacto */
+.hero-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.hero-card{background:#fff;border-radius:12px;padding:14px 16px;
+  box-shadow:0 4px 16px rgba(0,0,0,.10)}
+.kpi-ba-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.kpi-ba-card{background:#fff;border-radius:9px;padding:12px;
+  box-shadow:0 1px 4px rgba(0,0,0,.07)}
+.kpi-ba-label{font-size:.72rem;font-weight:700;color:#6b7280;margin-bottom:6px}
+.kpi-ba-row{display:flex;align-items:center;gap:8px}
+.kpi-ba-val{font-size:1.25rem;font-weight:800;font-family:monospace}
+.kpi-ba-val.before{color:#cbd5e1}
+.kpi-ba-arrow{font-size:1rem;color:#9ca3af}
+.kpi-ba-diff{font-size:.72rem;font-weight:700;margin-top:3px}
 </style>
 </head>
 <body>
@@ -143,6 +157,7 @@ html,body{height:100%;font-family:'Segoe UI',Calibri,sans-serif;background:#0a0a
     <button class="tbtn on"  onclick="sw(0)">🔍 Contexto &amp; Causas Raíz</button>
     <button class="tbtn"     onclick="sw(1)">🔄 Órdenes · Refacturaciones (12)</button>
     <button class="tbtn"     onclick="sw(2)">🎯 Next Steps</button>
+    <button class="tbtn"     onclick="sw(3)">📡 Impacto — Datos Janis</button>
   </div>
   <div class="panels">
     <div class="tp on" id="tp0"><div class="deck">
@@ -887,6 +902,166 @@ html,body{height:100%;font-family:'Segoe UI',Calibri,sans-serif;background:#0a0a
   </div>
 </section>
 </div></div>
+    <div class="tp"    id="tp3"><div class="deck">
+<section class="slide on" id="t4_impacto">
+  <div class="sacc" style="background:#7c3aed"></div>
+  <div class="shdr" style="background:linear-gradient(135deg,#5b21b6,#7c3aed)">
+    <div class="shdr-l">
+      <h2>📡 Resultados — Mejora en Datos Recibidos de Janis</h2>
+      <p class="shdr-sub">Impacto real medido en KPIs · 2026 · Validación item number + referencia cruzada</p>
+    </div>
+    <div class="shdr-r">
+      <span class="badge" style="background:#ffc220;color:#00277a">✅ Implementado</span>
+      <span class="badge" style="background:rgba(255,255,255,.15);color:#fff">BQ Producción</span>
+    </div>
+  </div>
+  <div class="sbody">
+
+    <!-- HERO ÍTEMS -->
+    <div class="hero-row">
+      <div class="hero-card" style="border:2px solid #7c3aed;background:linear-gradient(135deg,#faf5ff,#ede9fe)">
+        <div style="font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#7c3aed;margin-bottom:4px">📦 Pre-Sub — Ítems Completos Recuperados</div>
+        <div style="display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap">
+          <div style="text-align:center">
+            <div style="font-size:.68rem;color:#9ca3af;margin-bottom:2px">Antes</div>
+            <div style="font-size:1.5rem;font-weight:800;color:#6b7280;font-family:monospace">4,411,355</div>
+          </div>
+          <div style="font-size:1.8rem;color:#7c3aed;font-weight:800">→</div>
+          <div style="text-align:center">
+            <div style="font-size:.68rem;color:#9ca3af;margin-bottom:2px">Ahora</div>
+            <div style="font-size:1.5rem;font-weight:800;color:#7c3aed;font-family:monospace">4,423,853</div>
+          </div>
+          <div style="background:#7c3aed;color:#fff;border-radius:10px;padding:8px 18px;text-align:center;margin-left:4px">
+            <div style="font-size:1.8rem;font-weight:900;line-height:1">+12,498</div>
+            <div style="font-size:.68rem;font-weight:700;letter-spacing:.05em">ÍTEMS RECUPERADOS</div>
+            <div style="font-size:.72rem;color:rgba(255,255,255,.75)">+0.28% de cobertura</div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-card" style="border:2px solid #2a8703;background:linear-gradient(135deg,#f0fdf4,#dcfce7)">
+        <div style="font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#2a8703;margin-bottom:4px">📦 Post-Sub — Ítems Completos Recuperados</div>
+        <div style="display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap">
+          <div style="text-align:center">
+            <div style="font-size:.68rem;color:#9ca3af;margin-bottom:2px">Antes</div>
+            <div style="font-size:1.5rem;font-weight:800;color:#6b7280;font-family:monospace">4,475,364</div>
+          </div>
+          <div style="font-size:1.8rem;color:#2a8703;font-weight:800">→</div>
+          <div style="text-align:center">
+            <div style="font-size:.68rem;color:#9ca3af;margin-bottom:2px">Ahora</div>
+            <div style="font-size:1.5rem;font-weight:800;color:#2a8703;font-family:monospace">4,487,871</div>
+          </div>
+          <div style="background:#2a8703;color:#fff;border-radius:10px;padding:8px 18px;text-align:center;margin-left:4px">
+            <div style="font-size:1.8rem;font-weight:900;line-height:1">+12,507</div>
+            <div style="font-size:.68rem;font-weight:700;letter-spacing:.05em">ÍTEMS RECUPERADOS</div>
+            <div style="font-size:.72rem;color:rgba(255,255,255,.75)">+0.28% de cobertura</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KPI GRID -->
+    <div class="kpi-ba-grid">
+
+      <div class="kpi-ba-card" style="border-top:3px solid #0053e2">
+        <div class="kpi-ba-label">📊 Completitud 2026</div>
+        <div class="kpi-ba-row">
+          <div class="kpi-ba-val before">62.0%</div>
+          <div class="kpi-ba-arrow">→</div>
+          <div class="kpi-ba-val after" style="color:#0053e2">62.6%</div>
+        </div>
+        <div class="kpi-ba-diff" style="color:#2a8703">▲ +0.6 pp</div>
+        <div class="kpi-ba-bars">
+          <div style="position:relative;height:10px;background:#e2e8f0;border-radius:5px;margin-top:6px">
+            <div style="position:absolute;left:0;top:0;height:10px;width:62%;background:#cbd5e1;border-radius:5px"></div>
+            <div style="position:absolute;left:0;top:0;height:10px;width:62.6%;background:#0053e2;border-radius:5px"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="kpi-ba-card" style="border-top:3px solid #7c3aed">
+        <div class="kpi-ba-label">🎯 Pre-Sub</div>
+        <div class="kpi-ba-row">
+          <div class="kpi-ba-val before">88.1%</div>
+          <div class="kpi-ba-arrow">→</div>
+          <div class="kpi-ba-val after" style="color:#7c3aed">88.3%</div>
+        </div>
+        <div class="kpi-ba-diff" style="color:#2a8703">▲ +0.2 pp</div>
+        <div class="kpi-ba-bars">
+          <div style="position:relative;height:10px;background:#e2e8f0;border-radius:5px;margin-top:6px">
+            <div style="position:absolute;left:0;top:0;height:10px;width:88.1%;background:#cbd5e1;border-radius:5px"></div>
+            <div style="position:absolute;left:0;top:0;height:10px;width:88.3%;background:#7c3aed;border-radius:5px"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="kpi-ba-card" style="border-top:3px solid #2a8703">
+        <div class="kpi-ba-label">🎯 Post-Sub</div>
+        <div class="kpi-ba-row">
+          <div class="kpi-ba-val before">89.3%</div>
+          <div class="kpi-ba-arrow">→</div>
+          <div class="kpi-ba-val after" style="color:#2a8703">89.6%</div>
+        </div>
+        <div class="kpi-ba-diff" style="color:#2a8703">▲ +0.3 pp</div>
+        <div class="kpi-ba-bars">
+          <div style="position:relative;height:10px;background:#e2e8f0;border-radius:5px;margin-top:6px">
+            <div style="position:absolute;left:0;top:0;height:10px;width:89.3%;background:#cbd5e1;border-radius:5px"></div>
+            <div style="position:absolute;left:0;top:0;height:10px;width:89.6%;background:#2a8703;border-radius:5px"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="kpi-ba-card" style="border-top:3px solid #ea1100">
+        <div class="kpi-ba-label">📉 Nill Pick</div>
+        <div class="kpi-ba-row">
+          <div class="kpi-ba-val before">10.4%</div>
+          <div class="kpi-ba-arrow">→</div>
+          <div class="kpi-ba-val after" style="color:#ea1100">10.1%</div>
+        </div>
+        <div class="kpi-ba-diff" style="color:#2a8703">▼ −0.3 pp &nbsp;<span style="font-size:.65rem;color:#2a8703">(menor = mejor)</span></div>
+        <div class="kpi-ba-bars">
+          <div style="position:relative;height:10px;background:#e2e8f0;border-radius:5px;margin-top:6px">
+            <div style="position:absolute;left:0;top:0;height:10px;width:10.4%;background:#fca5a5;border-radius:5px"></div>
+            <div style="position:absolute;left:0;top:0;height:10px;width:10.1%;background:#ea1100;border-radius:5px"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="kpi-ba-card" style="border-top:3px solid #e07000;grid-column:1/-1">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+          <div>
+            <div class="kpi-ba-label">🏠 Orden Completa</div>
+            <div class="kpi-ba-row">
+              <div class="kpi-ba-val before">53.7%</div>
+              <div class="kpi-ba-arrow">→</div>
+              <div class="kpi-ba-val after" style="color:#e07000">54.2%</div>
+            </div>
+            <div class="kpi-ba-diff" style="color:#2a8703">▲ +0.5 pp — más órdenes entregadas completamente sin ningún Nill Pick</div>
+          </div>
+          <div style="flex:1;min-width:200px">
+            <div style="position:relative;height:14px;background:#e2e8f0;border-radius:7px">
+              <div style="position:absolute;left:0;top:0;height:14px;width:53.7%;background:#fed7aa;border-radius:7px"></div>
+              <div style="position:absolute;left:0;top:0;height:14px;width:54.2%;background:#e07000;border-radius:7px;opacity:.85"></div>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:.65rem;color:#9ca3af;margin-top:3px">
+              <span>0%</span><span style="color:#e07000;font-weight:700">54.2%</span><span>100%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- CHART -->
+    <div style="background:#fff;border-radius:10px;padding:14px;box-shadow:0 2px 8px rgba(0,0,0,.07)">
+      <p style="font-size:.76rem;font-weight:700;color:#464646;margin-bottom:10px">📊 Comparación KPIs — Antes vs Después (excl. Nill Pick)</p>
+      <div style="height:180px;position:relative">
+        <canvas id="kpiChart"></canvas>
+      </div>
+    </div>
+
+  </div>
+</section>
+</div></div>
   </div>
 </div>
 
@@ -900,7 +1075,32 @@ const TABS=[
   {panel:document.getElementById('tp0'), ids:["t1_cover", "t1_causas"]},
   {panel:document.getElementById('tp1'), ids:["t2_resumen", "s_947_670335", "s_4032_2204745", "s_4032_2208027", "s_4449_2208578", "s_4449_2204012", "s_4449_2205007", "s_4032_2207254", "s_4449_2226546", "s_4449_2227070", "s_831_2223340", "s_831_2220582", "s_831_2215939"]},
   {panel:document.getElementById('tp2'), ids:["t3_ns"]},
+  {panel:document.getElementById('tp3'), ids:["t4_impacto"]},
 ];
+let chartInst=null;
+function initChart(){
+  const cv=document.getElementById('kpiChart'); if(!cv||chartInst) return;
+  chartInst=new Chart(cv,{
+    type:'bar',
+    data:{
+      labels:['Completitud 2026','Pre-Sub','Post-Sub','Orden Completa'],
+      datasets:[
+        {label:'Antes',data:[62,88.1,89.3,53.7],
+          backgroundColor:'rgba(203,213,225,.7)',borderColor:'#cbd5e1',borderWidth:1,borderRadius:4},
+        {label:'Después',data:[62.6,88.3,89.6,54.2],
+          backgroundColor:['#0053e2cc','#7c3aedcc','#2a8703cc','#e07000cc'],
+          borderColor:['#0053e2','#7c3aed','#2a8703','#e07000'],borderWidth:2,borderRadius:4}
+      ]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{position:'top',labels:{font:{size:11}}},
+        tooltip:{callbacks:{label:ctx=>` ${ctx.dataset.label}: ${ctx.parsed.y}%`}}},
+      scales:{y:{min:50,max:95,ticks:{font:{size:10},callback:v=>v+'%'}},
+                x:{ticks:{font:{size:10}}}}
+    }
+  });
+}
 const tbns=document.querySelectorAll('.tbtn');
 const dotsEl=document.getElementById('dots');
 const cntEl =document.getElementById('cnt');
@@ -931,12 +1131,13 @@ function sw(t){
     const e=document.getElementById(id); if(e) e.classList.toggle('on',i===0);
   });
   buildDots(); upCnt();
+  if(ct===3) setTimeout(initChart,120);
 }
 buildDots(); upCnt();
 document.addEventListener('keydown',e=>{
   if(e.key==='ArrowRight'||e.key==='ArrowDown') go(+1);
   if(e.key==='ArrowLeft' ||e.key==='ArrowUp')   go(-1);
-  if(e.key==='1') sw(0); if(e.key==='2') sw(1); if(e.key==='3') sw(2);
+  if(e.key==='1') sw(0); if(e.key==='2') sw(1); if(e.key==='3') sw(2); if(e.key==='4') sw(3);
   if(e.key==='Home') show(0); if(e.key==='End') show(TABS[ct].ids.length-1);
 });
 </script>
