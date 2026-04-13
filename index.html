@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Casos Nill Pick — eCommerce CAM</title>
+<style>
+  /* ── Reset & base ────────────────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --blue:    #0053e2;
+    --blue-d:  #003a9e;
+    --blue-dd: #00277a;
+    --spark:   #ffc220;
+    --spark-d: #995213;
+    --red:     #ea1100;
+    --green:   #2a8703;
+    --gray160: #1a1a2e;
+    --gray80:  #464646;
+    --gray20:  #f0f2f5;
+    --white:   #ffffff;
+  }
+  html, body { height: 100%; font-family: 'Segoe UI', Calibri, sans-serif; background: #000; overflow: hidden; }
+
+  /* ── Deck container ─────────────────────────────────────── */
+  .deck { width: 100vw; height: 100vh; position: relative; }
+  .slide {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    opacity: 0; pointer-events: none;
+    transition: opacity .45s ease;
+  }
+  .slide.active { opacity: 1; pointer-events: all; }
+
+  /* ── Nav dots ────────────────────────────────────────────── */
+  .dots {
+    position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%);
+    display: flex; gap: 8px; z-index: 999;
+  }
+  .dot {
+    width: 9px; height: 9px; border-radius: 50%;
+    background: rgba(255,255,255,.35); cursor: pointer;
+    transition: background .25s, transform .25s;
+  }
+  .dot.on { background: var(--spark); transform: scale(1.35); }
+
+  /* ── Nav arrows ──────────────────────────────────────────── */
+  .arrow {
+    position: fixed; top: 50%; transform: translateY(-50%);
+    z-index: 999; background: rgba(0,0,0,.35); border: none;
+    color: #fff; font-size: 1.6rem; padding: 12px 16px;
+    cursor: pointer; border-radius: 6px; transition: background .2s;
+  }
+  .arrow:hover { background: var(--blue); }
+  .arrow.prev { left: 10px; }
+  .arrow.next { right: 10px; }
+
+  /* ── Slide counter ───────────────────────────────────────── */
+  .counter {
+    position: fixed; top: 14px; right: 18px; z-index: 999;
+    font-size: .82rem; color: rgba(255,255,255,.55); letter-spacing: .05em;
+  }
+
+  /* ══════════════════════════════════════════════════════════
+     SLIDE 1 — PORTADA
+  ══════════════════════════════════════════════════════════ */
+  #s1 {
+    background: linear-gradient(135deg, var(--blue-dd) 0%, var(--blue) 60%, #1a4fd4 100%);
+    justify-content: center; padding: 0 7% 0 9%;
+  }
+  #s1 .accent-bar  { position:absolute; left:0; top:0; bottom:0; width:6px; background:var(--spark); }
+  #s1 .top-stripe  { position:absolute; top:0; right:0; width:28%; height:5px; background:var(--spark); }
+  #s1 .eyebrow {
+    font-size: clamp(.75rem,1.2vw,1rem); font-weight:600; letter-spacing:.18em;
+    text-transform:uppercase; color:var(--spark); margin-bottom:1.4rem;
+  }
+  #s1 h1 {
+    font-size: clamp(2.4rem,5.5vw,4.2rem); font-weight:800;
+    color: var(--white); line-height:1.1; margin-bottom:1.2rem;
+  }
+  #s1 h1 span { color: var(--spark); }
+  #s1 .subtitle {
+    font-size: clamp(1rem,1.8vw,1.35rem); color: rgba(255,255,255,.8);
+    max-width: 640px; line-height:1.55; margin-bottom:2.8rem;
+  }
+  #s1 .pills { display:flex; gap:14px; flex-wrap:wrap; }
+  #s1 .pill {
+    background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.25);
+    color:#fff; padding:7px 18px; border-radius:100px;
+    font-size:.88rem; font-weight:500; letter-spacing:.04em;
+  }
+  #s1 .footer-bar {
+    position:absolute; bottom:0; left:0; right:0; height:52px;
+    background:var(--blue-dd);
+    display:flex; align-items:center; justify-content:space-between;
+    padding:0 6% 0 8%;
+  }
+  #s1 .footer-bar span { font-size:.82rem; color:rgba(255,255,255,.5); }
+  #s1 .footer-bar strong { font-size:.82rem; color:var(--spark); }
+
+  /* ══════════════════════════════════════════════════════════
+     SLIDE 2 — QUÉ ES EL NILL PICK
+  ══════════════════════════════════════════════════════════ */
+  #s2 { background: var(--gray20); }
+  .slide-header {
+    background: var(--blue); padding: 18px 6% 18px 4%;
+    display:flex; align-items:center; justify-content:space-between;
+    flex-shrink:0;
+  }
+  .slide-header h2 { font-size:clamp(1.2rem,2.5vw,1.75rem); font-weight:700; color:#fff; }
+  .slide-header .badge {
+    background: var(--spark); color: var(--gray160);
+    font-size:.78rem; font-weight:700; padding:5px 14px;
+    border-radius:100px; text-transform:uppercase; letter-spacing:.06em;
+    white-space:nowrap;
+  }
+  .side-accent { position:absolute; left:0; top:0; bottom:0; width:5px; background:var(--spark); }
+
+  #s2 .body { flex:1; padding: 22px 5% 16px 5%; display:flex; flex-direction:column; gap:18px; }
+
+  .def-box {
+    background: var(--blue); border-radius:10px;
+    padding: 18px 24px; color:#fff;
+    font-size:clamp(.9rem,1.4vw,1.1rem); line-height:1.6;
+  }
+  .def-box strong { color: var(--spark); }
+
+  .cards-row { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; flex:1; }
+  .card {
+    background: var(--blue); border-radius:12px;
+    padding:22px 20px; display:flex; flex-direction:column; gap:10px;
+    color:#fff; position:relative; overflow:hidden;
+  }
+  .card::after {
+    content:''; position:absolute; right:-18px; bottom:-18px;
+    width:80px; height:80px; border-radius:50%;
+    background:rgba(255,255,255,.06);
+  }
+  .card .card-icon { font-size:2rem; }
+  .card .card-title { font-size:1rem; font-weight:700; color:var(--spark); }
+  .card .card-body  { font-size:.85rem; line-height:1.55; color:rgba(255,255,255,.85); }
+
+  .note-bar {
+    background:#e8ecf8; border-left:4px solid var(--blue);
+    padding:10px 18px; border-radius:0 8px 8px 0;
+    font-size:.82rem; color:var(--gray80);
+  }
+
+  /* ══════════════════════════════════════════════════════════
+     SLIDE 3 — CONTEXTO
+  ══════════════════════════════════════════════════════════ */
+  #s3 { background: var(--gray20); }
+  #s3 .body { flex:1; padding:20px 5% 14px 5%; display:flex; flex-direction:column; gap:18px; }
+
+  /* Timeline */
+  .timeline { display:flex; align-items:flex-start; gap:0; position:relative; margin: 6px 0 4px; }
+  .timeline::before {
+    content:''; position:absolute; top:28px; left:28px; right:28px; height:3px;
+    background: linear-gradient(90deg, var(--red), var(--blue));
+    border-radius:2px;
+  }
+  .tl-item { flex:1; display:flex; flex-direction:column; align-items:center; gap:8px; }
+  .tl-dot {
+    width:20px; height:20px; border-radius:50%; border:3px solid #fff;
+    box-shadow:0 0 0 3px var(--red); background:var(--red);
+    flex-shrink:0; z-index:1;
+  }
+  .tl-dot.blue { background:var(--blue); box-shadow:0 0 0 3px var(--blue); }
+  .tl-label { font-size:.82rem; font-weight:700; color:var(--red); margin-top:4px; }
+  .tl-label.blue { color:var(--blue); }
+  .tl-desc { font-size:.75rem; color:var(--gray80); text-align:center; line-height:1.4; max-width:110px; }
+
+  /* Impact box */
+  .impact-box {
+    background:#fff; border-radius:10px;
+    border-left:5px solid var(--red);
+    padding:18px 22px; flex:1;
+  }
+  .impact-box h3 { font-size:1.02rem; font-weight:700; color:var(--red); margin-bottom:12px; }
+  .impact-box ul { list-style:none; display:flex; flex-direction:column; gap:9px; }
+  .impact-box ul li {
+    font-size:.88rem; color:var(--gray160); line-height:1.5;
+    padding-left:22px; position:relative;
+  }
+  .impact-box ul li::before {
+    content:'▸'; position:absolute; left:0; color:var(--blue); font-size:.9rem;
+  }
+
+  /* Stores row */
+  .stores-row { display:flex; gap:12px; }
+  .store-chip {
+    background:var(--blue); color:#fff; border-radius:8px;
+    padding:8px 16px; font-size:.82rem; font-weight:600;
+    display:flex; align-items:center; gap:7px;
+  }
+  .store-chip .dot-red { width:8px; height:8px; border-radius:50%; background:var(--red); flex-shrink:0; }
+</style>
+</head>
+<body>
+
+<div class="deck">
+
+  <!-- ── SLIDE 1: PORTADA ────────────────────────────────── -->
+  <section class="slide active" id="s1">
+    <div class="accent-bar"></div>
+    <div class="top-stripe"></div>
+
+    <p class="eyebrow">eCommerce CAM · Data &amp; Analytics</p>
+    <h1>Casos <span>Nill Pick</span><br>en Operación</h1>
+    <p class="subtitle">
+      Desde el <strong style="color:var(--spark)">27 de marzo de 2026</strong>, la operación
+      ha reportado órdenes que afectan directamente el nuevo indicador de
+      <strong style="color:var(--spark)">Nill Pick</strong>, comprometiendo la trazabilidad
+      contable y la experiencia del cliente.
+    </p>
+
+    <div class="pills">
+      <span class="pill">📍 Costa Rica</span>
+      <span class="pill">📦 eCommerce On Demand</span>
+      <span class="pill">🆕 Nuevo indicador</span>
+      <span class="pill">⚠️ Casos activos desde 27 Mar</span>
+    </div>
+
+    <div class="footer-bar">
+      <span>eCommerce CAM &nbsp;|&nbsp; Data &amp; Analytics &nbsp;|&nbsp; 2026</span>
+      <strong>Nill Pick · Análisis de casos operativos</strong>
+    </div>
+  </section>
+
+  <!-- ── SLIDE 2: QUÉ ES EL NILL PICK ───────────────────── -->
+  <section class="slide" id="s2">
+    <div class="side-accent"></div>
+    <div class="slide-header">
+      <h2>¿Qué es el Nill Pick?</h2>
+      <span class="badge">🆕 Nuevo indicador</span>
+    </div>
+
+    <div class="body">
+      <div class="def-box">
+        El <strong>Nill Pick</strong> es un indicador que mide la cantidad de
+        artículos de un pedido que <strong>NO pudieron ser entregados al cliente</strong>
+        porque no se encontraron disponibles al momento del <em>picking</em> en tienda.
+        Un artículo se contabiliza como Nill Pick cuando el pedido fue confirmado
+        pero el ítem <strong>no pudo ser despachado</strong>.
+      </div>
+
+      <div class="cards-row">
+        <div class="card">
+          <span class="card-icon">🆕</span>
+          <p class="card-title">Indicador Nuevo</p>
+          <p class="card-body">
+            Recientemente incorporado como métrica clave de desempeño operativo
+            en eCommerce CAM. Su correcta medición es crítica para la toma de
+            decisiones del negocio.
+          </p>
+        </div>
+        <div class="card">
+          <span class="card-icon">📦</span>
+          <p class="card-title">¿Qué mide?</p>
+          <p class="card-body">
+            Órdenes o líneas de pedido donde el ítem fue procesado y cobrado
+            pero <strong style="color:var(--spark)">no pudo ser pickeado</strong>
+            ni entregado al cliente en tienda.
+          </p>
+        </div>
+        <div class="card">
+          <span class="card-icon">⚠️</span>
+          <p class="card-title">¿Por qué importa?</p>
+          <p class="card-body">
+            Afecta directamente la <strong style="color:var(--spark)">experiencia del cliente</strong>
+            y la <strong style="color:var(--spark)">trazabilidad contable</strong> del pedido.
+            Un Nill Pick mal contabilizado distorsiona el indicador y oculta
+            problemas reales de inventario.
+          </p>
+        </div>
+      </div>
+
+      <div class="note-bar">
+        📊 Este indicador está alineado con los <strong>KPIs Operativos On demand</strong>
+        del dominio eCommerce CAM y se monitorea en el dashboard operativo del equipo.
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SLIDE 3: CONTEXTO ──────────────────────────────── -->
+  <section class="slide" id="s3">
+    <div class="side-accent"></div>
+    <div class="slide-header">
+      <h2>Contexto: casos reportados desde operación</h2>
+      <span class="badge" style="background:var(--red);color:#fff">⚠️ Activo</span>
+    </div>
+
+    <div class="body">
+
+      <!-- Timeline -->
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <p class="tl-label">27 Mar</p>
+          <p class="tl-desc">Primeros casos reportados por la operación</p>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <p class="tl-label">28 Mar</p>
+          <p class="tl-desc">Nuevos reportes — Walmart Boulevard del Norte</p>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <p class="tl-label">29 Mar</p>
+          <p class="tl-desc">Escalamiento — Walmart Escazú y La Lima</p>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot blue"></div>
+          <p class="tl-label blue">Hoy</p>
+          <p class="tl-desc">Análisis en curso — validado en BigQuery</p>
+        </div>
+      </div>
+
+      <!-- Impact -->
+      <div class="impact-box">
+        <h3>¿Cuál es el impacto?</h3>
+        <ul>
+          <li>Las órdenes reportadas presentan <strong>transacciones de refactura</strong> (positiva, negativa y perdida) cuyos ítems no coinciden entre sí.</li>
+          <li>Esta inconsistencia provoca que el sistema <strong>contabilice Nill Picks que no corresponden</strong> a artículos realmente no entregados.</li>
+          <li>El indicador se ve directamente afectado porque la <strong>lógica de conciliación</strong> no logra asociar correctamente todas las transacciones del pedido.</li>
+          <li>Los casos fueron validados contra el datalake BigQuery confirmando <strong>diferencias reales de ítems</strong> entre transacciones del mismo pedido.</li>
+        </ul>
+      </div>
+
+      <!-- Tiendas -->
+      <div class="stores-row">
+        <div class="store-chip"><span class="dot-red"></span>Walmart La Lima</div>
+        <div class="store-chip"><span class="dot-red"></span>Walmart Escazú</div>
+        <div class="store-chip"><span class="dot-red"></span>Walmart Boulevard del Norte</div>
+      </div>
+
+    </div>
+  </section>
+
+</div><!-- /deck -->
+
+<!-- Nav -->
+<button class="arrow prev" onclick="go(-1)">&#8592;</button>
+<button class="arrow next" onclick="go(+1)">&#8594;</button>
+<div class="dots" id="dots"></div>
+<div class="counter" id="counter"></div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const dotsEl  = document.getElementById('dots');
+  const counter = document.getElementById('counter');
+  let cur = 0;
+
+  // Build dots
+  slides.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i===0?' on':'');
+    d.onclick = () => goTo(i);
+    dotsEl.appendChild(d);
+  });
+
+  function goTo(n) {
+    slides[cur].classList.remove('active');
+    dotsEl.children[cur].classList.remove('on');
+    cur = (n + slides.length) % slides.length;
+    slides[cur].classList.add('active');
+    dotsEl.children[cur].classList.add('on');
+    counter.textContent = (cur+1) + ' / ' + slides.length;
+  }
+  function go(d) { goTo(cur+d); }
+
+  counter.textContent = '1 / ' + slides.length;
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown')  go(+1);
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')    go(-1);
+    if (e.key === 'Home') goTo(0);
+    if (e.key === 'End')  goTo(slides.length-1);
+  });
+</script>
+</body>
+</html>
