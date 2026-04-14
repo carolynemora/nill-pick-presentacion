@@ -126,6 +126,12 @@ html,body{height:100%;font-family:'Segoe UI',Calibri,sans-serif;background:#0a0a
 .ns-impact{border-radius:7px;padding:9px 11px;display:flex;align-items:flex-start;gap:8px;
   font-size:.75rem;color:#464646;line-height:1.4}
 .ns-impact div strong{display:block;font-size:.77rem;margin-bottom:2px}
+/* meta chips (order date / status) */
+.meta-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:2px}
+.meta-chip{background:#fff;border:1px solid #e2e8f0;border-radius:8px;
+  padding:5px 11px;display:flex;flex-direction:column;gap:1px;min-width:90px}
+.meta-lbl{font-size:.62rem;color:#9ca3af;font-weight:600;text-transform:uppercase;letter-spacing:.06em}
+.meta-val{font-size:.78rem;color:#374151;font-weight:600}
 /* Tab 4 - impacto */
 .hero-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .hero-card{background:#fff;border-radius:12px;padding:14px 16px;
@@ -381,11 +387,12 @@ html,body{height:100%;font-family:'Segoe UI',Calibri,sans-serif;background:#0a0a
       <table class="itbl" style="font-size:.74rem">
         <thead><tr>
           <th>Pedido</th><th>Tipo</th>
+          <th class="rc">Order Date</th><th class="rc">Estado</th>
           <th class="rc">T1</th><th class="rc">T2</th><th class="rc">T3</th>
           <th class="rc">Diffs</th><th class="rc">T1=T3%</th>
           <th>Clasificación</th><th>Nota</th>
         </tr></thead>
-        <tbody><tr><td><strong>947-670335</strong></td><td style="font-size:.72rem">Refacturación</td><td class="rc">7591</td><td class="rc">—</td><td class="rc">6097</td><td class="rc"><strong style="color:#ea1100">3</strong></td><td class="rc">95.9%</td><td><span class="tg" style="background:#2a870322;color:#2a8703;border:1px solid #2a870366">✅ CORRECTA — Nill Picks identificados</span></td><td style="font-size:.69rem;color:#6b7280;max-width:180px"></td></tr><tr><td><strong>4032-2204745</strong></td><td style="font-size:.72rem">Refacturación</td><td class="rc">7654</td><td class="rc">9433</td><td class="rc">8255</td><td class="rc"><strong style="color:#ea1100">15</strong></td><td class="rc">68.8%</td><td><span class="tg" style="background:#ea110022;color:#ea1100;border:1px solid #ea110066">🚨 SOSPECHOSA — Mezcla de ítems ajenos</span></td><td style="font-size:.69rem;color:#6b7280;max-width:180px"></td></tr><tr><td><strong>4032-2208027</strong></td><td style="font-size:.72rem">Refacturación</td><td class="rc">8250</td><td class="rc">9552</td><td class="rc">8419</td><td class="rc"><strong style="color:#ea1100">4</strong></td><td class="rc">88.6%</td><td><span class="tg" style="background:#2a870322;color:#2a8703;border:1px solid #2a870366">✅ CORRECTA — Nill Picks identificados</span></td><td style="font-size:.69rem;color:#6b7280;max-width:180px"></td></tr><tr><td><strong>4449-2208578</strong></td><td style="font-size:.72rem">Refacturación</td><td class="rc">9590</td><td class="rc">8790</td><td class="rc">9595</td><td class="rc"><strong style="color:#ea1100">28</strong></td><td class="rc">44.0%</td><td><span class="tg" style="background:#ea110022;color:#ea1100;border:1px solid #ea110066">🚨 SOSPECHOSA — Mezcla de ítems ajenos</span></td><td style="font-size:.69rem;color:#6b7280;max-width:180px"></td></tr><tr><td><strong>4449-2204012</strong></td><td style="font-size:.72rem">Refacturación</td><td class="rc">8850</td><td class="rc">8747</td><td class="rc">8853</td><td class="rc"><strong style="color:#ea1100">2</strong></td><td class="rc">90.5%</td><td><span class="tg" style="background:#2a870322;color:#2a8703;border:1px solid #2a870366">✅ CORRECTA — Ajustes de cantidad</span></td><td style="font-size:.69rem;color:#6b7280;max-width:180px"></td></tr><tr><td><strong>4449-2205007</strong></td><td style="font-size:.72rem">Refacturación</td><td class="rc">9007</td><td class="rc">8753</td><td class="rc">9010</td><td class="rc"><strong style="color:#ea1100">1</strong></td><td class="rc">97.7%</td><td><span class="tg" style="background:#e0700022;color:#e07000;border:1px solid #e0700066">⚠️ CASI IDÉNTICA</span></td><td style="font-size:.69rem;color:#6b7280;max-width:180px"></td></tr><tr><td><strong>4032-2207254</strong></td><td style="font-size:.72rem">Posible refacturación</td><td class="rc">8278</td><td class="rc">—</td><td class="rc">—</td><td class="rc"><strong style="color:#2a8703">—</strong></td><td class="rc">N/A</td><td><span class="tg" style="background:#7c3aed22;color:#7c3aed;border:1px solid #7c3aed66">⚠️ Factura cruzada</span></td><td style="font-size:.69rem;color:#6b7280;max-width:180px">Trans 8278 pertenece a 4032-1608048-V (2025-04-29)</td></tr><tr><td><strong>4449-2226546</strong></td><td style="font-size:.72rem">Orden manual</td><td class="rc">—</td><td class="rc">—</td><td class="rc">—</td><td class="rc"><strong style="color:#2a8703">—</strong></td><td class="rc">N/A</td><td><span class="tg" style="background:#e0700022;color:#e07000;border:1px solid #e0700066">✍️ Datos faltantes</span></td><td style="font-size:.69rem;color:#6b7280;max-width:180px">Sin caja registrada</td></tr><tr><td><strong>4449-2227070</strong></td><td style="font-size:.72rem">Orden manual</td><td class="rc">—</td><td class="rc">—</td><td class="rc">—</td><td class="rc"><strong style="color:#2a8703">—</strong></td><td class="rc">N/A</td><td><span class="tg" style="background:#e0700022;color:#e07000;border:1px solid #e0700066">✍️ Datos faltantes</span></td><td style="font-size:.69rem;color:#6b7280;max-width:180px">Sin caja registrada</td></tr><tr><td><strong>831-2223340</strong></td><td style="font-size:.72rem">Orden manual</td><td class="rc">—</td><td class="rc">—</td><td class="rc">—</td><td class="rc"><strong style="color:#2a8703">—</strong></td><td class="rc">N/A</td><td><span class="tg" style="background:#e0700022;color:#e07000;border:1px solid #e0700066">✍️ Datos faltantes</span></td><td style="font-size:.69rem;color:#6b7280;max-width:180px">Sin caja registrada</td></tr><tr><td><strong>831-2220582</strong></td><td style="font-size:.72rem">Cancelado</td><td class="rc">—</td><td class="rc">—</td><td class="rc">—</td><td class="rc"><strong style="color:#2a8703">—</strong></td><td class="rc">N/A</td><td><span class="tg" style="background:#6b728022;color:#6b7280;border:1px solid #6b728066">🚫 Sin conciliación</span></td><td style="font-size:.69rem;color:#6b7280;max-width:180px">Reporta entregado · OMS: no entregado</td></tr><tr><td><strong>831-2215939</strong></td><td style="font-size:.72rem">Cancelado</td><td class="rc">—</td><td class="rc">—</td><td class="rc">—</td><td class="rc"><strong style="color:#2a8703">—</strong></td><td class="rc">N/A</td><td><span class="tg" style="background:#6b728022;color:#6b7280;border:1px solid #6b728066">🚫 Sin conciliación</span></td><td style="font-size:.69rem;color:#6b7280;max-width:180px">Reporta entregado · OMS: no entregado</td></tr></tbody>
+        <tbody><tr><td><strong>947-670335</strong></td><td style="font-size:.72rem">Refacturación</td><td class="rc"><span style="font-size:.7rem;color:#374151">28 Mar 2026</span></td><td class="rc"><span style="color:#2a8703;font-weight:700;font-size:.7rem">✅ Entregado</span></td><td class="rc">7591</td><td class="rc">—</td><td class="rc">6097</td><td class="rc"><strong style="color:{"#2a8703" if str(nd) not in ("0","--","—") and nd else "#9ca3af"}">3</strong></td><td class="rc">95.9%</td><td><span class="tg" style="background:#2a870322;color:#2a8703;border:1px solid #2a870366">✅ CORRECTA — Nill Picks identificados</span></td><td style="font-size:.69rem;color:#6b7280;max-width:180px"></td></tr><tr><td><strong>4032-2204745</strong></td><td style="font-size:.72rem">Refacturación</td><td class="rc"><span style="font-size:.7rem;color:#374151">27 Mar 2026</span></td><td class="rc"><span style="color:#2a8703;font-weight:700;font-size:.7rem">✅ Entregado</span></td><td class="rc">7654</td><td class="rc">9433</td><td class="rc">8255</td><td class="rc"><strong style="color:{"#2a8703" if str(nd) not in ("0","--","—") and nd else "#9ca3af"}">15</strong></td><td class="rc">68.8%</td><td><span class="tg" style="background:#2a870322;color:#2a8703;border:1px solid #2a870366">✅ CORRECTA — Ajustes completos</span></td><td style="font-size:.69rem;color:#6b7280;max-width:180px"></td></tr><tr><td><strong>4032-2208027</strong></td><td style="font-size:.72rem">Refacturación</td><td class="rc"><span style="font-size:.7rem;color:#374151">29 Mar 2026</span></td><td class="rc"><span style="color:#2a8703;font-weight:700;font-size:.7rem">✅ Entregado</span></td><td class="rc">8250</td><td class="rc">9552</td><td class="rc">8419</td><td class="rc"><strong style="color:{"#2a8703" if str(nd) not in ("0","--","—") and nd else "#9ca3af"}">4</strong></td><td class="rc">88.6%</td><td><span class="tg" style="background:#2a870322;color:#2a8703;border:1px solid #2a870366">✅ CORRECTA — Nill Picks identificados</span></td><td style="font-size:.69rem;color:#6b7280;max-width:180px"></td></tr><tr><td><strong>4449-2208578</strong></td><td style="font-size:.72rem">Refacturación</td><td class="rc"><span style="font-size:.7rem;color:#374151">29 Mar 2026</span></td><td class="rc"><span style="color:#2a8703;font-weight:700;font-size:.7rem">✅ Entregado</span></td><td class="rc">9590</td><td class="rc">8790</td><td class="rc">9595</td><td class="rc"><strong style="color:{"#2a8703" if str(nd) not in ("0","--","—") and nd else "#9ca3af"}">28</strong></td><td class="rc">44.0%</td><td><span class="tg" style="background:#2a870322;color:#2a8703;border:1px solid #2a870366">✅ CORRECTA — Ajustes completos</span></td><td style="font-size:.69rem;color:#6b7280;max-width:180px"></td></tr><tr><td><strong>4449-2204012</strong></td><td style="font-size:.72rem">Refacturación</td><td class="rc"><span style="font-size:.7rem;color:#374151">27 Mar 2026</span></td><td class="rc"><span style="color:#2a8703;font-weight:700;font-size:.7rem">✅ Entregado</span></td><td class="rc">8850</td><td class="rc">8747</td><td class="rc">8853</td><td class="rc"><strong style="color:{"#2a8703" if str(nd) not in ("0","--","—") and nd else "#9ca3af"}">2</strong></td><td class="rc">90.5%</td><td><span class="tg" style="background:#2a870322;color:#2a8703;border:1px solid #2a870366">✅ CORRECTA — Ajustes de cantidad</span></td><td style="font-size:.69rem;color:#6b7280;max-width:180px"></td></tr><tr><td><strong>4449-2205007</strong></td><td style="font-size:.72rem">Refacturación</td><td class="rc"><span style="font-size:.7rem;color:#374151">27 Mar 2026</span></td><td class="rc"><span style="color:#2a8703;font-weight:700;font-size:.7rem">✅ Entregado</span></td><td class="rc">9007</td><td class="rc">8753</td><td class="rc">9010</td><td class="rc"><strong style="color:{"#2a8703" if str(nd) not in ("0","--","—") and nd else "#9ca3af"}">1</strong></td><td class="rc">97.7%</td><td><span class="tg" style="background:#e0700022;color:#e07000;border:1px solid #e0700066">⚠️ CASI IDÉNTICA</span></td><td style="font-size:.69rem;color:#6b7280;max-width:180px"></td></tr><tr><td><strong>4032-2207254</strong></td><td style="font-size:.72rem">Posible refacturación</td><td class="rc">—</td><td class="rc">—</td><td class="rc">8278</td><td class="rc">—</td><td class="rc">—</td><td class="rc"><strong style="color:{"#2a8703" if str(nd) not in ("0","--","—") and nd else "#9ca3af"}">—</strong></td><td class="rc">N/A</td><td><span class="tg" style="background:#7c3aed22;color:#7c3aed;border:1px solid #7c3aed66">⚠️ Factura cruzada</span></td><td style="font-size:.69rem;color:#6b7280;max-width:180px">Trans 8278 pertenece a 4032-1608048-V (2025-04-29)</td></tr><tr><td><strong>4449-2226546</strong></td><td style="font-size:.72rem">Orden manual</td><td class="rc">—</td><td class="rc">—</td><td class="rc">—</td><td class="rc">—</td><td class="rc">—</td><td class="rc"><strong style="color:{"#2a8703" if str(nd) not in ("0","--","—") and nd else "#9ca3af"}">—</strong></td><td class="rc">N/A</td><td><span class="tg" style="background:#e0700022;color:#e07000;border:1px solid #e0700066">✍️ Datos faltantes</span></td><td style="font-size:.69rem;color:#6b7280;max-width:180px">Sin caja registrada</td></tr><tr><td><strong>4449-2227070</strong></td><td style="font-size:.72rem">Orden manual</td><td class="rc">—</td><td class="rc">—</td><td class="rc">—</td><td class="rc">—</td><td class="rc">—</td><td class="rc"><strong style="color:{"#2a8703" if str(nd) not in ("0","--","—") and nd else "#9ca3af"}">—</strong></td><td class="rc">N/A</td><td><span class="tg" style="background:#e0700022;color:#e07000;border:1px solid #e0700066">✍️ Datos faltantes</span></td><td style="font-size:.69rem;color:#6b7280;max-width:180px">Sin caja registrada</td></tr><tr><td><strong>831-2223340</strong></td><td style="font-size:.72rem">Orden manual</td><td class="rc">—</td><td class="rc">—</td><td class="rc">—</td><td class="rc">—</td><td class="rc">—</td><td class="rc"><strong style="color:{"#2a8703" if str(nd) not in ("0","--","—") and nd else "#9ca3af"}">—</strong></td><td class="rc">N/A</td><td><span class="tg" style="background:#e0700022;color:#e07000;border:1px solid #e0700066">✍️ Datos faltantes</span></td><td style="font-size:.69rem;color:#6b7280;max-width:180px">Sin caja registrada</td></tr><tr><td><strong>831-2220582</strong></td><td style="font-size:.72rem">Cancelado</td><td class="rc">—</td><td class="rc">—</td><td class="rc">—</td><td class="rc">—</td><td class="rc">—</td><td class="rc"><strong style="color:{"#2a8703" if str(nd) not in ("0","--","—") and nd else "#9ca3af"}">—</strong></td><td class="rc">N/A</td><td><span class="tg" style="background:#6b728022;color:#6b7280;border:1px solid #6b728066">🚫 Sin conciliación</span></td><td style="font-size:.69rem;color:#6b7280;max-width:180px">Reporta entregado · OMS: no entregado</td></tr><tr><td><strong>831-2215939</strong></td><td style="font-size:.72rem">Cancelado</td><td class="rc">—</td><td class="rc">—</td><td class="rc">—</td><td class="rc">—</td><td class="rc">—</td><td class="rc"><strong style="color:{"#2a8703" if str(nd) not in ("0","--","—") and nd else "#9ca3af"}">—</strong></td><td class="rc">N/A</td><td><span class="tg" style="background:#6b728022;color:#6b7280;border:1px solid #6b728066">🚫 Sin conciliación</span></td><td style="font-size:.69rem;color:#6b7280;max-width:180px">Reporta entregado · OMS: no entregado</td></tr></tbody>
       </table>
     </div>
     <div class="ibar" style="border-left-color:#ea1100;background:#fff8f8">
@@ -399,15 +406,22 @@ html,body{height:100%;font-family:'Segoe UI',Calibri,sans-serif;background:#0a0a
   <div class="sacc" style="background:#2a8703"></div>
   <div class="shdr" style="background:#2a8703">
     <div class="shdr-l">
-      <h2>🔄 947-670335 &nbsp;·&nbsp; Blvd Norte &nbsp;·&nbsp; 2026-03-28</h2>
-      <p class="shdr-sub">T1=7591 (2026-03-28) &nbsp;|&nbsp; T2=N/A &nbsp;|&nbsp; T3=6097 (2026-03-28)</p>
+      <h2>🔄 947-670335 &nbsp;·&nbsp; Blvd Norte</h2>
+      <p class="shdr-sub">Order Date: 28 Mar 2026 &nbsp;|  T1=7591 (2026-03-28) &nbsp;|&nbsp; T3=6097 (2026-03-28)</p>
     </div>
     <div class="shdr-r">
       <span class="badge" style="background:rgba(0,0,0,.25);color:#fff">Refacturación</span>
-      <span class="badge" style="background:rgba(255,255,255,.2);color:#fff">3 diferencia(s)</span>
+      <span class="badge" style="background:rgba(255,255,255,.9);color:#2a8703">✅ Entregado</span>
     </div>
   </div>
   <div class="sbody">
+    <div class="meta-row">
+      <div class="meta-chip"><span class="meta-lbl">📅 Order Date</span><span class="meta-val">28 Mar 2026</span></div>
+      <div class="meta-chip"><span class="meta-lbl">📦 Estado</span><span class="meta-val" style="color:#2a8703;font-weight:800">✅ Entregado</span></div>
+      <div class="meta-chip"><span class="meta-lbl">🔄 T1</span><span class="meta-val">7591 — 2026-03-28</span></div>
+      <div class="meta-chip"><span class="meta-lbl">🔄 T3</span><span class="meta-val">6097 — 2026-03-28</span></div>
+      <div class="meta-chip"><span class="meta-lbl">📊 Diferencias T1≠T3</span><span class="meta-val" style="color:#2a8703;font-weight:800">+3 ajustes</span></div>
+    </div>
     <div class="ibar" style="border-left-color:#2a8703;background:#faf5ff">
       <strong>✅ CORRECTA — Nill Picks identificados</strong><br><strong>3 ítem(s)</strong> en T1 no se refacturaron → Nill Picks reales confirmados. 95.9% de ítems coinciden.
     </div>
@@ -420,8 +434,8 @@ html,body{height:100%;font-family:'Segoe UI',Calibri,sans-serif;background:#0a0a
     </div>
     <div class="kpis">
       <div class="kp"><div class="kn" style="color:#2a8703">71</div><div class="kl">Iguales</div></div>
-      <div class="kp"><div class="kn" style="color:#e07000">3</div><div class="kl">Solo T1<br><small>posible Nill Pick</small></div></div>
-      <div class="kp"><div class="kn" style="color:#ea1100">0</div><div class="kl">Solo T3<br><small>ítem ajeno</small></div></div>
+      <div class="kp"><div class="kn" style="color:#e07000">3</div><div class="kl">Nill Picks<br><small>en T1, fuera T3</small></div></div>
+      <div class="kp"><div class="kn" style="color:#7c3aed">0</div><div class="kl">Ajustados<br><small>solo en T3</small></div></div>
       <div class="kp"><div class="kn" style="color:#1d4ed8">0</div><div class="kl">Qty diferente<br><small>ajuste peso</small></div></div>
     </div>
     <p style="font-size:.74rem;font-weight:700;color:#464646">
@@ -431,20 +445,27 @@ html,body{height:100%;font-family:'Segoe UI',Calibri,sans-serif;background:#0a0a
   </div>
 </section>
 <section class="slide" id="s_4032_2204745">
-  <div class="sacc" style="background:#ea1100"></div>
-  <div class="shdr" style="background:#ea1100">
+  <div class="sacc" style="background:#2a8703"></div>
+  <div class="shdr" style="background:#2a8703">
     <div class="shdr-l">
-      <h2>🔄 4032-2204745 &nbsp;·&nbsp; Escazú &nbsp;·&nbsp; 2026-03-27</h2>
-      <p class="shdr-sub">T1=7654 (2026-03-27) &nbsp;|&nbsp; T2=9433 &nbsp;|&nbsp; T3=8255 (2026-03-29)</p>
+      <h2>🔄 4032-2204745 &nbsp;·&nbsp; Escazú</h2>
+      <p class="shdr-sub">Order Date: 27 Mar 2026 &nbsp;|  T1=7654 (2026-03-27) &nbsp;|&nbsp; T3=8255 (2026-03-29)</p>
     </div>
     <div class="shdr-r">
       <span class="badge" style="background:rgba(0,0,0,.25);color:#fff">Refacturación</span>
-      <span class="badge" style="background:rgba(255,255,255,.2);color:#fff">15 diferencia(s)</span>
+      <span class="badge" style="background:rgba(255,255,255,.9);color:#2a8703">✅ Entregado</span>
     </div>
   </div>
   <div class="sbody">
-    <div class="ibar" style="border-left-color:#ea1100;background:#faf5ff">
-      <strong>🚨 SOSPECHOSA — Mezcla de ítems ajenos</strong><br><strong>5 ítem(s) en T3 no pertenecen a este pedido</strong>. 9 ítems del pedido original no refacturados.
+    <div class="meta-row">
+      <div class="meta-chip"><span class="meta-lbl">📅 Order Date</span><span class="meta-val">27 Mar 2026</span></div>
+      <div class="meta-chip"><span class="meta-lbl">📦 Estado</span><span class="meta-val" style="color:#2a8703;font-weight:800">✅ Entregado</span></div>
+      <div class="meta-chip"><span class="meta-lbl">🔄 T1</span><span class="meta-val">7654 — 2026-03-27</span></div>
+      <div class="meta-chip"><span class="meta-lbl">🔄 T3</span><span class="meta-val">8255 — 2026-03-29</span></div>
+      <div class="meta-chip"><span class="meta-lbl">📊 Diferencias T1≠T3</span><span class="meta-val" style="color:#2a8703;font-weight:800">+15 ajustes</span></div>
+    </div>
+    <div class="ibar" style="border-left-color:#2a8703;background:#faf5ff">
+      <strong>✅ CORRECTA — Ajustes completos</strong><br>Refacturación con ajustes completos: <strong>9 Nill Pick(s)</strong> removidos de T1 y <strong>5 ítem(s)</strong> modificados en T3. Más diferencias = mejor gestión. 68.8% de ítems coinciden.
     </div>
     <div class="kpis">
       <div class="kp"><div class="kn">43</div><div class="kl">Ítems T1<br><small>original</small></div></div>
@@ -455,8 +476,8 @@ html,body{height:100%;font-family:'Segoe UI',Calibri,sans-serif;background:#0a0a
     </div>
     <div class="kpis">
       <div class="kp"><div class="kn" style="color:#2a8703">33</div><div class="kl">Iguales</div></div>
-      <div class="kp"><div class="kn" style="color:#e07000">9</div><div class="kl">Solo T1<br><small>posible Nill Pick</small></div></div>
-      <div class="kp"><div class="kn" style="color:#ea1100">5</div><div class="kl">Solo T3<br><small>ítem ajeno</small></div></div>
+      <div class="kp"><div class="kn" style="color:#e07000">9</div><div class="kl">Nill Picks<br><small>en T1, fuera T3</small></div></div>
+      <div class="kp"><div class="kn" style="color:#7c3aed">5</div><div class="kl">Ajustados<br><small>solo en T3</small></div></div>
       <div class="kp"><div class="kn" style="color:#1d4ed8">1</div><div class="kl">Qty diferente<br><small>ajuste peso</small></div></div>
     </div>
     <p style="font-size:.74rem;font-weight:700;color:#464646">
@@ -469,15 +490,22 @@ html,body{height:100%;font-family:'Segoe UI',Calibri,sans-serif;background:#0a0a
   <div class="sacc" style="background:#2a8703"></div>
   <div class="shdr" style="background:#2a8703">
     <div class="shdr-l">
-      <h2>🔄 4032-2208027 &nbsp;·&nbsp; Escazú &nbsp;·&nbsp; 2026-03-29</h2>
-      <p class="shdr-sub">T1=8250 (2026-03-29) &nbsp;|&nbsp; T2=9552 &nbsp;|&nbsp; T3=8419 (2026-03-29)</p>
+      <h2>🔄 4032-2208027 &nbsp;·&nbsp; Escazú</h2>
+      <p class="shdr-sub">Order Date: 29 Mar 2026 &nbsp;|  T1=8250 (2026-03-29) &nbsp;|&nbsp; T3=8419 (2026-03-29)</p>
     </div>
     <div class="shdr-r">
       <span class="badge" style="background:rgba(0,0,0,.25);color:#fff">Refacturación</span>
-      <span class="badge" style="background:rgba(255,255,255,.2);color:#fff">4 diferencia(s)</span>
+      <span class="badge" style="background:rgba(255,255,255,.9);color:#2a8703">✅ Entregado</span>
     </div>
   </div>
   <div class="sbody">
+    <div class="meta-row">
+      <div class="meta-chip"><span class="meta-lbl">📅 Order Date</span><span class="meta-val">29 Mar 2026</span></div>
+      <div class="meta-chip"><span class="meta-lbl">📦 Estado</span><span class="meta-val" style="color:#2a8703;font-weight:800">✅ Entregado</span></div>
+      <div class="meta-chip"><span class="meta-lbl">🔄 T1</span><span class="meta-val">8250 — 2026-03-29</span></div>
+      <div class="meta-chip"><span class="meta-lbl">🔄 T3</span><span class="meta-val">8419 — 2026-03-29</span></div>
+      <div class="meta-chip"><span class="meta-lbl">📊 Diferencias T1≠T3</span><span class="meta-val" style="color:#2a8703;font-weight:800">+4 ajustes</span></div>
+    </div>
     <div class="ibar" style="border-left-color:#2a8703;background:#faf5ff">
       <strong>✅ CORRECTA — Nill Picks identificados</strong><br><strong>3 ítem(s)</strong> en T1 no se refacturaron → Nill Picks reales confirmados. 88.6% de ítems coinciden.
     </div>
@@ -490,8 +518,8 @@ html,body{height:100%;font-family:'Segoe UI',Calibri,sans-serif;background:#0a0a
     </div>
     <div class="kpis">
       <div class="kp"><div class="kn" style="color:#2a8703">31</div><div class="kl">Iguales</div></div>
-      <div class="kp"><div class="kn" style="color:#e07000">3</div><div class="kl">Solo T1<br><small>posible Nill Pick</small></div></div>
-      <div class="kp"><div class="kn" style="color:#ea1100">0</div><div class="kl">Solo T3<br><small>ítem ajeno</small></div></div>
+      <div class="kp"><div class="kn" style="color:#e07000">3</div><div class="kl">Nill Picks<br><small>en T1, fuera T3</small></div></div>
+      <div class="kp"><div class="kn" style="color:#7c3aed">0</div><div class="kl">Ajustados<br><small>solo en T3</small></div></div>
       <div class="kp"><div class="kn" style="color:#1d4ed8">1</div><div class="kl">Qty diferente<br><small>ajuste peso</small></div></div>
     </div>
     <p style="font-size:.74rem;font-weight:700;color:#464646">
@@ -501,20 +529,27 @@ html,body{height:100%;font-family:'Segoe UI',Calibri,sans-serif;background:#0a0a
   </div>
 </section>
 <section class="slide" id="s_4449_2208578">
-  <div class="sacc" style="background:#ea1100"></div>
-  <div class="shdr" style="background:#ea1100">
+  <div class="sacc" style="background:#2a8703"></div>
+  <div class="shdr" style="background:#2a8703">
     <div class="shdr-l">
-      <h2>🔄 4449-2208578 &nbsp;·&nbsp; La Lima &nbsp;·&nbsp; 2026-03-29</h2>
-      <p class="shdr-sub">T1=9590 (2026-03-29) &nbsp;|&nbsp; T2=8790 &nbsp;|&nbsp; T3=9595 (2026-03-29)</p>
+      <h2>🔄 4449-2208578 &nbsp;·&nbsp; La Lima</h2>
+      <p class="shdr-sub">Order Date: 29 Mar 2026 &nbsp;|  T1=9590 (2026-03-29) &nbsp;|&nbsp; T3=9595 (2026-03-29)</p>
     </div>
     <div class="shdr-r">
       <span class="badge" style="background:rgba(0,0,0,.25);color:#fff">Refacturación</span>
-      <span class="badge" style="background:rgba(255,255,255,.2);color:#fff">28 diferencia(s)</span>
+      <span class="badge" style="background:rgba(255,255,255,.9);color:#2a8703">✅ Entregado</span>
     </div>
   </div>
   <div class="sbody">
-    <div class="ibar" style="border-left-color:#ea1100;background:#faf5ff">
-      <strong>🚨 SOSPECHOSA — Mezcla de ítems ajenos</strong><br><strong>3 ítem(s) en T3 no pertenecen a este pedido</strong>. 24 ítems del pedido original no refacturados.
+    <div class="meta-row">
+      <div class="meta-chip"><span class="meta-lbl">📅 Order Date</span><span class="meta-val">29 Mar 2026</span></div>
+      <div class="meta-chip"><span class="meta-lbl">📦 Estado</span><span class="meta-val" style="color:#2a8703;font-weight:800">✅ Entregado</span></div>
+      <div class="meta-chip"><span class="meta-lbl">🔄 T1</span><span class="meta-val">9590 — 2026-03-29</span></div>
+      <div class="meta-chip"><span class="meta-lbl">🔄 T3</span><span class="meta-val">9595 — 2026-03-29</span></div>
+      <div class="meta-chip"><span class="meta-lbl">📊 Diferencias T1≠T3</span><span class="meta-val" style="color:#2a8703;font-weight:800">+28 ajustes</span></div>
+    </div>
+    <div class="ibar" style="border-left-color:#2a8703;background:#faf5ff">
+      <strong>✅ CORRECTA — Ajustes completos</strong><br>Refacturación con ajustes completos: <strong>24 Nill Pick(s)</strong> removidos de T1 y <strong>3 ítem(s)</strong> modificados en T3. Más diferencias = mejor gestión. 44.0% de ítems coinciden.
     </div>
     <div class="kpis">
       <div class="kp"><div class="kn">47</div><div class="kl">Ítems T1<br><small>original</small></div></div>
@@ -525,8 +560,8 @@ html,body{height:100%;font-family:'Segoe UI',Calibri,sans-serif;background:#0a0a
     </div>
     <div class="kpis">
       <div class="kp"><div class="kn" style="color:#2a8703">22</div><div class="kl">Iguales</div></div>
-      <div class="kp"><div class="kn" style="color:#e07000">24</div><div class="kl">Solo T1<br><small>posible Nill Pick</small></div></div>
-      <div class="kp"><div class="kn" style="color:#ea1100">3</div><div class="kl">Solo T3<br><small>ítem ajeno</small></div></div>
+      <div class="kp"><div class="kn" style="color:#e07000">24</div><div class="kl">Nill Picks<br><small>en T1, fuera T3</small></div></div>
+      <div class="kp"><div class="kn" style="color:#7c3aed">3</div><div class="kl">Ajustados<br><small>solo en T3</small></div></div>
       <div class="kp"><div class="kn" style="color:#1d4ed8">1</div><div class="kl">Qty diferente<br><small>ajuste peso</small></div></div>
     </div>
     <p style="font-size:.74rem;font-weight:700;color:#464646">
@@ -539,15 +574,22 @@ html,body{height:100%;font-family:'Segoe UI',Calibri,sans-serif;background:#0a0a
   <div class="sacc" style="background:#2a8703"></div>
   <div class="shdr" style="background:#2a8703">
     <div class="shdr-l">
-      <h2>🔄 4449-2204012 &nbsp;·&nbsp; La Lima &nbsp;·&nbsp; 2026-03-27</h2>
-      <p class="shdr-sub">T1=8850 (2026-03-27) &nbsp;|&nbsp; T2=8747 &nbsp;|&nbsp; T3=8853 (2026-03-27)</p>
+      <h2>🔄 4449-2204012 &nbsp;·&nbsp; La Lima</h2>
+      <p class="shdr-sub">Order Date: 27 Mar 2026 &nbsp;|  T1=8850 (2026-03-27) &nbsp;|&nbsp; T3=8853 (2026-03-27)</p>
     </div>
     <div class="shdr-r">
       <span class="badge" style="background:rgba(0,0,0,.25);color:#fff">Refacturación</span>
-      <span class="badge" style="background:rgba(255,255,255,.2);color:#fff">2 diferencia(s)</span>
+      <span class="badge" style="background:rgba(255,255,255,.9);color:#2a8703">✅ Entregado</span>
     </div>
   </div>
   <div class="sbody">
+    <div class="meta-row">
+      <div class="meta-chip"><span class="meta-lbl">📅 Order Date</span><span class="meta-val">27 Mar 2026</span></div>
+      <div class="meta-chip"><span class="meta-lbl">📦 Estado</span><span class="meta-val" style="color:#2a8703;font-weight:800">✅ Entregado</span></div>
+      <div class="meta-chip"><span class="meta-lbl">🔄 T1</span><span class="meta-val">8850 — 2026-03-27</span></div>
+      <div class="meta-chip"><span class="meta-lbl">🔄 T3</span><span class="meta-val">8853 — 2026-03-27</span></div>
+      <div class="meta-chip"><span class="meta-lbl">📊 Diferencias T1≠T3</span><span class="meta-val" style="color:#2a8703;font-weight:800">+2 ajustes</span></div>
+    </div>
     <div class="ibar" style="border-left-color:#2a8703;background:#faf5ff">
       <strong>✅ CORRECTA — Ajustes de cantidad</strong><br><strong>2 ítem(s) pesables</strong> con ajuste de cantidad. Proceso normal.
     </div>
@@ -560,8 +602,8 @@ html,body{height:100%;font-family:'Segoe UI',Calibri,sans-serif;background:#0a0a
     </div>
     <div class="kpis">
       <div class="kp"><div class="kn" style="color:#2a8703">19</div><div class="kl">Iguales</div></div>
-      <div class="kp"><div class="kn" style="color:#e07000">0</div><div class="kl">Solo T1<br><small>posible Nill Pick</small></div></div>
-      <div class="kp"><div class="kn" style="color:#ea1100">0</div><div class="kl">Solo T3<br><small>ítem ajeno</small></div></div>
+      <div class="kp"><div class="kn" style="color:#e07000">0</div><div class="kl">Nill Picks<br><small>en T1, fuera T3</small></div></div>
+      <div class="kp"><div class="kn" style="color:#7c3aed">0</div><div class="kl">Ajustados<br><small>solo en T3</small></div></div>
       <div class="kp"><div class="kn" style="color:#1d4ed8">2</div><div class="kl">Qty diferente<br><small>ajuste peso</small></div></div>
     </div>
     <p style="font-size:.74rem;font-weight:700;color:#464646">
@@ -574,15 +616,22 @@ html,body{height:100%;font-family:'Segoe UI',Calibri,sans-serif;background:#0a0a
   <div class="sacc" style="background:#e07000"></div>
   <div class="shdr" style="background:#e07000">
     <div class="shdr-l">
-      <h2>🔄 4449-2205007 &nbsp;·&nbsp; La Lima &nbsp;·&nbsp; 2026-03-27</h2>
-      <p class="shdr-sub">T1=9007 (2026-03-27) &nbsp;|&nbsp; T2=8753 &nbsp;|&nbsp; T3=9010 (2026-03-27)</p>
+      <h2>🔄 4449-2205007 &nbsp;·&nbsp; La Lima</h2>
+      <p class="shdr-sub">Order Date: 27 Mar 2026 &nbsp;|  T1=9007 (2026-03-27) &nbsp;|&nbsp; T3=9010 (2026-03-27)</p>
     </div>
     <div class="shdr-r">
       <span class="badge" style="background:rgba(0,0,0,.25);color:#fff">Refacturación</span>
-      <span class="badge" style="background:rgba(255,255,255,.2);color:#fff">1 diferencia(s)</span>
+      <span class="badge" style="background:rgba(255,255,255,.9);color:#2a8703">✅ Entregado</span>
     </div>
   </div>
   <div class="sbody">
+    <div class="meta-row">
+      <div class="meta-chip"><span class="meta-lbl">📅 Order Date</span><span class="meta-val">27 Mar 2026</span></div>
+      <div class="meta-chip"><span class="meta-lbl">📦 Estado</span><span class="meta-val" style="color:#2a8703;font-weight:800">✅ Entregado</span></div>
+      <div class="meta-chip"><span class="meta-lbl">🔄 T1</span><span class="meta-val">9007 — 2026-03-27</span></div>
+      <div class="meta-chip"><span class="meta-lbl">🔄 T3</span><span class="meta-val">9010 — 2026-03-27</span></div>
+      <div class="meta-chip"><span class="meta-lbl">📊 Diferencias T1≠T3</span><span class="meta-val" style="color:#2a8703;font-weight:800">+1 ajustes</span></div>
+    </div>
     <div class="ibar" style="border-left-color:#e07000;background:#faf5ff">
       <strong>⚠️ CASI IDÉNTICA</strong><br>T1 y T3 son prácticamente iguales. Único ítem adicional en T3: cargo de plataforma <strong>ECOMMERCE</strong>. Revisar si el ciclo T2→T3 fue necesario.
     </div>
@@ -595,8 +644,8 @@ html,body{height:100%;font-family:'Segoe UI',Calibri,sans-serif;background:#0a0a
     </div>
     <div class="kpis">
       <div class="kp"><div class="kn" style="color:#2a8703">42</div><div class="kl">Iguales</div></div>
-      <div class="kp"><div class="kn" style="color:#e07000">0</div><div class="kl">Solo T1<br><small>posible Nill Pick</small></div></div>
-      <div class="kp"><div class="kn" style="color:#ea1100">1</div><div class="kl">Solo T3<br><small>ítem ajeno</small></div></div>
+      <div class="kp"><div class="kn" style="color:#e07000">0</div><div class="kl">Nill Picks<br><small>en T1, fuera T3</small></div></div>
+      <div class="kp"><div class="kn" style="color:#7c3aed">1</div><div class="kl">Ajustados<br><small>solo en T3</small></div></div>
       <div class="kp"><div class="kn" style="color:#1d4ed8">0</div><div class="kl">Qty diferente<br><small>ajuste peso</small></div></div>
     </div>
     <p style="font-size:.74rem;font-weight:700;color:#464646">
